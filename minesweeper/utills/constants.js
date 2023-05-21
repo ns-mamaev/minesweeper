@@ -1,8 +1,8 @@
 export const gameSettings = {
   easy: {
-    x: 6,
-    y: 6,
-    bombs: 5,
+    x: 10,
+    y: 10,
+    bombs: 10,
   },
   medium: {
     x: 15,
@@ -16,4 +16,4 @@ export const gameSettings = {
   },
 };
 
-export const aroundCellCoords = [[-1, 1], [0, 1], [1, 1], [1, 0], [1, -1], [0, -1], [-1, -1]];
+export const aroundCellCoords = [[-1, 1], [0, 1], [1, 1], [1, 0], [1, -1], [0, -1], [-1, -1], [-1, 0]];

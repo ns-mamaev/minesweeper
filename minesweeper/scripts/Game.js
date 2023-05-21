@@ -26,7 +26,7 @@ export default class Game {
       const x = index - this.xSize * y;
 
       // set bomb
-      this.field[y][x] = 8;
+      this.field[y][x] = 'B';
 
       // count bombs
       for (const [deltaX, deltaY] of aroundCellCoords) {
@@ -36,15 +36,13 @@ export default class Game {
         if (nearbyCellX > this.xSize - 1 || nearbyCellX < 0) continue;
         if (nearbyCellY > this.ySize - 1 || nearbyCellY < 0) continue;
 
-        const isBomb = this.field[nearbyCellY][nearbyCellX] === 8;
+        const isBomb = this.field[nearbyCellY][nearbyCellX] === 'B';
 
         if (!isBomb) {
           this.field[nearbyCellY][nearbyCellX]++;
         }
       }
     })
-
-
     console.log(this.field);
   }
 
