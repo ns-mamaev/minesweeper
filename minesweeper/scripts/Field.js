@@ -1,3 +1,5 @@
+import { qtySuffixes } from "../utills/constants.js";
+
 export default class Field {
   constructor({ emiter }) {
     const view = document.createElement('ul')
@@ -38,7 +40,6 @@ export default class Field {
 
   handleGameover(bombsCoords, currentBombCoords) {
     const { x: currentX, y: currentY } = currentBombCoords;
-    console.log(currentBombCoords)
     bombsCoords.forEach(({ x, y }) => {
       const cell = this.findCell(x, y);
       const bombClass = x === currentX && y === currentY
@@ -51,11 +52,14 @@ export default class Field {
 
   showCell(x, y, content) {
     const cell = this.findCell(x, y);
-    console.log(content);
     if (content) {
       cell.textContent = content;
+      const classSufix = qtySuffixes[content] || qtySuffixes.more;
+      cell.classList.add(`game-field__cell_qty_${classSufix}`);
+    } else {
+      cell.classList.add('game-field__cell_type_empty');
     }
-    cell.classList.add('game-field__cell_type_opened')
+    cell.classList.add('game-field__cell_type_opened');
   }
 
   addListeners() {

@@ -24,21 +24,20 @@ body {
 }
 
 .game-field__cell:hover {
-  background-color: #f4f2f2;
+  opacity: 0.8;
 }
 
 .game-field__cell_type_bomb {
   background: center / 70% no-repeat url(./assets/bomb.png);
-  background-color: #fff;
+  background-color: #bbb;
 }
 
 .game-field__cell_type_current-bomb {
   background: center / 70% no-repeat url(./assets/explosion.png);
-  background-color: #fff;
+  background-color: #bbb;
 }
 
 .game-field__cell_type_opened {
-  background-color: #fff;
   cursor: unset;
   display: flex;
   align-items: center;
@@ -48,6 +47,26 @@ body {
   font-weight: 600;
 }
 
-.game-field__cell_type_opened:hover {
+.game-field__cell_type_empty {
   background-color: #fff;
-} 
+}
+
+.game-field__cell_qty_s {
+  background-color: #cde4c4;
+}
+
+.game-field__cell_qty_m {
+  background-color: #f2f19c;
+}
+
+.game-field__cell_qty_l {
+  background-color: #f0ba62;
+}
+
+.game-field__cell_qty_xl {
+  background-color: #eba36c;
+}
+
+.game-field__cell_qty_more {
+  background-color: #d36a5a;
+}

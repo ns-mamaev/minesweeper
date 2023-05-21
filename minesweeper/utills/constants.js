@@ -17,4 +17,13 @@ export const gameSettings = {
 };
 
 export const aroundCellCoords = [[-1, 1], [0, 1], [1, 1], [1, 0], [1, -1], [0, -1], [-1, -1], [-1, 0]];
+
 export const BOMB_TAG = 'B';
+
+export const qtySuffixes = {
+  1: 's',
+  2: 'm',
+  3: 'l',
+  4: 'xl',
+  more: 'more',
+}
