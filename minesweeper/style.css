@@ -37,6 +37,11 @@ body {
   background-color: #bbb;
 }
 
+.game-field__cell_type_flag {
+  background: center / 70% no-repeat url(./assets/flag.png);
+  background-color: #eeeaea;
+}
+
 .game-field__cell_type_opened {
   cursor: unset;
   display: flex;

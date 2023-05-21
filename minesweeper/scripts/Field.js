@@ -70,5 +70,12 @@ export default class Field {
         this.eventEmiter.emit('open', +x, +y);
       }
     });
+    this.view.addEventListener('contextmenu', (e) => {
+      e.preventDefault();
+      const cell = e.target.closest('.game-field__cell');
+      if (cell) {
+        cell.classList.toggle('game-field__cell_type_flag');
+      }
+    })
   }
 }

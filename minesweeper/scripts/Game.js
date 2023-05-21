@@ -5,7 +5,7 @@ export default class Game {
   constructor({ view, emiter }) {
     this.eventEmiter = emiter;
     this.view = view;
-
+    this.firstMove = true;
     this.bombsCoords = [];
     emiter.attach('open', this.openCell.bind(this));
   }
@@ -35,7 +35,7 @@ export default class Game {
       const bombIndex = getRandomInt(0, this.xSize * this.ySize);
       if (!bombsIndexes.has(bombIndex)) {
         bombsIndexes.add(bombIndex);
-        rest -= 1;
+        rest--;
       }
     }
     bombsIndexes.forEach(index => {
@@ -54,10 +54,13 @@ export default class Game {
         }
       })
     })
-    console.log(this.field);
   }
 
   openCell(x, y) {
+    if (this.firstMove) {
+      this.setBombs();
+      this.firstMove = false;
+    }
     const cellValue = this.field[y][x].value;
     this.field[y][x].opened = true;
 
@@ -98,6 +101,5 @@ export default class Game {
     this.bombsQty = bombs;
     this.createField(x, y);
     this.view.init(x, y);
-    this.setBombs();
   }
 }
