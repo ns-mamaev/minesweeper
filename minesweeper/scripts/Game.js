@@ -28,12 +28,13 @@ export default class Game {
     }
   }
 
-  setBombs() {
+  setBombs(firstMoveIndex) {
     const bombsIndexes = new Set();
     let rest = this.bombsQty;
     while (rest) {
       const bombIndex = getRandomInt(0, this.xSize * this.ySize);
-      if (!bombsIndexes.has(bombIndex)) {
+      const shouldCreateBomb = !bombsIndexes.has(bombIndex) && bombIndex !== firstMoveIndex;
+      if (shouldCreateBomb) {
         bombsIndexes.add(bombIndex);
         rest--;
       }
@@ -58,7 +59,8 @@ export default class Game {
 
   openCell(x, y) {
     if (this.firstMove) {
-      this.setBombs();
+      const firstMoveIndex = y * this.xSize + x;
+      this.setBombs(firstMoveIndex);
       this.firstMove = false;
     }
     const cellValue = this.field[y][x].value;
