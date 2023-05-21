@@ -1,12 +1,14 @@
-import { aroundCellCoords } from "../utills/constants.js";
+import { BOMB_TAG, aroundCellCoords } from "../utills/constants.js";
 import { getRandomInt } from "../utills/utills.js";
 
 export default class Game {
-  constructor() {
+  constructor({ view }) {
+    this.view = view;
   }
 
   createField(x, y) {
-    const field = [...Array(y)].map(() => [...Array(x)].map(() => 0));
+    const field = [...Array(y)]
+      .map(() => [...Array(x)].map(() => ({ value: 0, opened: false })));
     this.field = field;
   }
 
@@ -26,7 +28,7 @@ export default class Game {
       const x = index - this.xSize * y;
 
       // set bomb
-      this.field[y][x] = 'B';
+      this.field[y][x].value = BOMB_TAG;
 
       // count bombs
       for (const [deltaX, deltaY] of aroundCellCoords) {
@@ -36,15 +38,37 @@ export default class Game {
         if (nearbyCellX > this.xSize - 1 || nearbyCellX < 0) continue;
         if (nearbyCellY > this.ySize - 1 || nearbyCellY < 0) continue;
 
-        const isBomb = this.field[nearbyCellY][nearbyCellX] === 'B';
+        const isBomb = this.field[nearbyCellY][nearbyCellX].value === BOMB_TAG;
 
         if (!isBomb) {
-          this.field[nearbyCellY][nearbyCellX]++;
+          this.field[nearbyCellY][nearbyCellX].value++;
         }
       }
     })
     console.log(this.field);
   }
+
+  openCell(x, y) {
+    const cellValue = this.field[y][x].value;
+    switch (cellValue) {
+      case BOMB_TAG:
+        this.handleGameOver();
+        break;
+      case 0:
+        this.openEmptyCell();
+      default:
+        break;
+    }
+  }
+
+  handleGameOver() {
+    console.log('Хана, проиграл!')
+  }
+
+  openEmptyCell() {
+
+  }
+  
 
   start(gameSettings) {
     console.log('game started!')
@@ -54,6 +78,7 @@ export default class Game {
     this.fieldSize = x * y;
     this.bombsQty = bombs;
     this.createField(x, y);
+    this.view.init(x, y);
     this.setBombs();
   }
 }

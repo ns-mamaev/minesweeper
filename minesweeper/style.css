@@ -1,7 +1,28 @@
 body {
   margin: 0;
   display: flex;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
   min-height: 100vh;
+}
+
+.game-field {
+  display: grid;
+  margin: 0;
+  padding: 10px;
+  background-color: #ccc;
+  list-style: none;
+  grid-gap: 8px;
+}
+
+.game-field__cell {
+  width: 48px;
+  height: 48px;
+  background-color: #fff;
+  cursor: pointer;
+}
+
+.game-field__cell:hover {
+  background-color: #eee;
 }
