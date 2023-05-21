@@ -55,11 +55,14 @@ export default class Game {
 
   openCell(x, y) {
     const cellValue = this.field[y][x].value;
+    this.field[y][x].opened = true;
+
     switch (cellValue) {
       case BOMB_TAG:
         this.handleGameOver(x, y);
         break;
       default:
+        this.handleOpenCell(x, y, cellValue);
         break;
     }
   }
@@ -69,7 +72,10 @@ export default class Game {
     const currentBombCoords = { x, y }
     this.eventEmiter.emit('gameover', this.bombsCoords, currentBombCoords);
   }
-  
+
+  handleOpenCell(x, y, value) {
+    this.eventEmiter.emit('showCell', x, y, value);
+  }
 
   start(gameSettings) {
     const { x, y, bombs } = gameSettings;

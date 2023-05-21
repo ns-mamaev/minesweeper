@@ -5,7 +5,8 @@ export default class Field {
 
     this.view = view;
     this.eventEmiter = emiter;
-    emiter.attach('gameover', this.showGameover.bind(this));
+    emiter.attach('gameover', this.handleGameover.bind(this));
+    emiter.attach('showCell', this.showCell.bind(this));
   }
 
   init(x, y) {
@@ -31,24 +32,36 @@ export default class Field {
     document.body.append(this.view);
   }
 
-  showGameover(bombsCoords, currentBombCoords) {
+  findCell(x, y) {
+    return this.view.querySelector(`[data-coords="${x}x${y}"]`);
+  }
+
+  handleGameover(bombsCoords, currentBombCoords) {
     const { x: currentX, y: currentY } = currentBombCoords;
     console.log(currentBombCoords)
     bombsCoords.forEach(({ x, y }) => {
-      const cell = this.view.querySelector(`[data-coords="${x}x${y}"]`);
+      const cell = this.findCell(x, y);
       const bombClass = x === currentX && y === currentY
         ? 'game-field__cell_type_current-bomb'
         : 'game-field__cell_type_bomb';
 
       cell.classList.add(bombClass);
     });
-    
+  }
+
+  showCell(x, y, content) {
+    const cell = this.findCell(x, y);
+    console.log(content);
+    if (content) {
+      cell.textContent = content;
+    }
+    cell.classList.add('game-field__cell_type_opened')
   }
 
   addListeners() {
     this.view.addEventListener('click', (e) => {
       const cell = e.target.closest('.game-field__cell');
-      if (cell) {
+      if (cell && !cell.classList.contains('game-field__cell_type_opened')) {
         const [ x, y ] = cell.dataset.coords.split('x');
         this.eventEmiter.emit('open', +x, +y);
       }
