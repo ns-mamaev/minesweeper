@@ -19,10 +19,20 @@ body {
 .game-field__cell {
   width: 48px;
   height: 48px;
-  background-color: #fff;
+  background-color: #eeeaea;
   cursor: pointer;
 }
 
 .game-field__cell:hover {
-  background-color: #eee;
+  background-color: #f4f2f2;
+}
+
+.game-field__cell_type_bomb {
+  background: center / 70% no-repeat url(./assets/bomb.png);
+  background-color: #fff;
+}
+
+.game-field__cell_type_current-bomb {
+  background: center / 70% no-repeat url(./assets/explosion.png);
+  background-color: #fff;
 }

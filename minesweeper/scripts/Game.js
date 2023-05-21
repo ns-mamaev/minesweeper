@@ -2,8 +2,12 @@ import { BOMB_TAG, aroundCellCoords } from "../utills/constants.js";
 import { getRandomInt } from "../utills/utills.js";
 
 export default class Game {
-  constructor({ view }) {
+  constructor({ view, emiter }) {
+    this.eventEmiter = emiter;
     this.view = view;
+
+    this.bombsCoords = [];
+    emiter.attach('open', this.openCell.bind(this));
   }
 
   createField(x, y) {
@@ -29,6 +33,7 @@ export default class Game {
 
       // set bomb
       this.field[y][x].value = BOMB_TAG;
+      this.bombsCoords.push({ x, y });
 
       // count bombs
       for (const [deltaX, deltaY] of aroundCellCoords) {
@@ -52,26 +57,21 @@ export default class Game {
     const cellValue = this.field[y][x].value;
     switch (cellValue) {
       case BOMB_TAG:
-        this.handleGameOver();
+        this.handleGameOver(x, y);
         break;
-      case 0:
-        this.openEmptyCell();
       default:
         break;
     }
   }
 
-  handleGameOver() {
-    console.log('Хана, проиграл!')
-  }
-
-  openEmptyCell() {
-
+  handleGameOver(x, y) {
+    console.log('Хана, проиграл!');
+    const currentBombCoords = { x, y }
+    this.eventEmiter.emit('gameover', this.bombsCoords, currentBombCoords);
   }
   
 
   start(gameSettings) {
-    console.log('game started!')
     const { x, y, bombs } = gameSettings;
     this.xSize = x;
     this.ySize = y;
