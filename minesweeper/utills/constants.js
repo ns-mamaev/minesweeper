@@ -1,8 +1,8 @@
 export const gameSettings = {
   easy: {
-    x: 3,
-    y: 3,
-    bombs: 3,
+    x: 10,
+    y: 10,
+    bombs: 10,
   },
   medium: {
     x: 15,

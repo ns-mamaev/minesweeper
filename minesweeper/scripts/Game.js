@@ -16,6 +16,18 @@ export default class Game {
     this.field = field;
   }
 
+  bypassAround(x, y, callback) {
+    for (const [deltaX, deltaY] of aroundCellCoords) {
+      const nearbyCellY = y + deltaY;
+      const nearbyCellX = x + deltaX;
+
+      if (nearbyCellX > this.xSize - 1 || nearbyCellX < 0) continue;
+      if (nearbyCellY > this.ySize - 1 || nearbyCellY < 0) continue;
+
+      callback(nearbyCellX, nearbyCellY)
+    }
+  }
+
   setBombs() {
     const bombsIndexes = new Set();
     let rest = this.bombsQty;
@@ -26,7 +38,6 @@ export default class Game {
         rest -= 1;
       }
     }
-
     bombsIndexes.forEach(index => {
       const y = Math.floor(index / this.xSize);
       const x = index - this.xSize * y;
@@ -36,19 +47,12 @@ export default class Game {
       this.bombsCoords.push({ x, y });
 
       // count bombs
-      for (const [deltaX, deltaY] of aroundCellCoords) {
-        const nearbyCellY = y + deltaY;
-        const nearbyCellX = x + deltaX;
-
-        if (nearbyCellX > this.xSize - 1 || nearbyCellX < 0) continue;
-        if (nearbyCellY > this.ySize - 1 || nearbyCellY < 0) continue;
-
+      this.bypassAround(x, y, (nearbyCellX, nearbyCellY) => {
         const isBomb = this.field[nearbyCellY][nearbyCellX].value === BOMB_TAG;
-
         if (!isBomb) {
           this.field[nearbyCellY][nearbyCellX].value++;
         }
-      }
+      })
     })
     console.log(this.field);
   }
@@ -61,6 +65,16 @@ export default class Game {
       case BOMB_TAG:
         this.handleGameOver(x, y);
         break;
+      case 0:
+        this.handleOpenCell(x, y);
+        this.bypassAround(x, y, (nearbyCellX, nearbyCellY) => {
+          const { value, opened } = this.field[nearbyCellY][nearbyCellX];
+          const shouldOpen = value !== BOMB_TAG && !opened;
+          if (shouldOpen) {
+            this.openCell(nearbyCellX, nearbyCellY)
+          }
+        })
+        break;
       default:
         this.handleOpenCell(x, y, cellValue);
         break;
@@ -68,7 +82,6 @@ export default class Game {
   }
 
   handleGameOver(x, y) {
-    console.log('Хана, проиграл!');
     const currentBombCoords = { x, y }
     this.eventEmiter.emit('gameover', this.bombsCoords, currentBombCoords);
   }
@@ -88,4 +101,3 @@ export default class Game {
     this.setBombs();
   }
 }
-
