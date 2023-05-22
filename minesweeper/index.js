@@ -7,13 +7,14 @@ import Scoreboard from './scripts/Scoreboard.js';
 import { gameSettings } from './utills/constants.js';
 import { createElement } from './utills/utills.js';
 
+
+const eventEmiter = new EventEmiter();
 const layout = createElement('main', 'main');
 
 const scoreboard = new Scoreboard({ container: layout });
-const controls = new Controls({ container: layout });
-const menuPopup = new MenuPopup({ container: document.body })
+const controls = new Controls({ container: layout, emiter: eventEmiter });
+const menuPopup = new MenuPopup({ container: document.body, emiter: eventEmiter  })
 
-const eventEmiter = new EventEmiter();
 const fieldView = new Field({
   emiter: eventEmiter,
   container: layout,

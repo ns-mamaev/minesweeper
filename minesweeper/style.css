@@ -1,4 +1,5 @@
 @import url('./styles/popup.css');
+@import url('./styles/menu.css');
 
 body {
   margin: 0;
@@ -135,12 +136,12 @@ button {
   background-image: url(./assets/flag.png);
 }
 
-.controls__img_type_menu {
-  background-image: url(./assets/menu.svg);
-}
-
 .controls__button:hover {
   cursor: pointer;
+}
+
+.controls__button:focus {
+  outline: none;
 }
 
 .controls__button:hover .controls__img {
@@ -151,15 +152,19 @@ button {
   transform: scale(1.1);
 }
 
-.controls__img_type_pause {
+.controls__button_type_menu .controls__img {
+  background-image: url(./assets/menu.svg);
+}
+
+.controls__button_type_pause .controls__img {
   background-image: url(./assets/pause.svg);
 }
 
-.controls__img_type_play {
+.controls__button_type_play .controls__img {
   background-image: url(./assets/play.svg);
 }
 
-.controls__img_type_reset {
+.controls__button_type_reset .controls__img {
   background-image: url(./assets/refresh-ccw.svg);
 }
 

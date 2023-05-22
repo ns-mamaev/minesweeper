@@ -5,10 +5,10 @@ export default class Popup extends View {
   constructor({ container, className }) {
     super(container);
     this.view = createElement('div', ['popup', className, 'popup_opened'])
-    const inner = createElement('div', 'popup__inner');
+    this.inner = createElement('div', 'popup__inner');
     this.closeBtn = createElement('button', 'popup__close-btn')
-    inner.append(this.closeBtn);
-    this.view.append(inner);
+    this.inner.append(this.closeBtn);
+    this.view.append(this.inner);
     this.handlePressEsc = this.handlePressEsc.bind(this);
   }
 

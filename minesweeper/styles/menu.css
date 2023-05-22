@@ -1,0 +1,22 @@
+.menu__heading {
+  margin: 0;
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+.menu__difficulty {
+  display: flex;
+  column-gap: 12px;
+}
+
+.menu__difficulty-btn {
+  background-color: #eee;
+  border-radius: 6px;
+  padding: 12px;
+  min-width: 100px;
+  cursor: pointer;
+}
+
+.menu__difficulty-btn:hover {
+  opacity: 0.8;
+}
