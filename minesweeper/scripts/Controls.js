@@ -7,9 +7,8 @@ export default class Controls extends View {
     this.eventEmiter = emiter
     this.menuBtn = this.createButton('menu', 'menu');
     this.pauseBtn = this.createButton('pause', 'pause');
-    this.pauseBtn.setAttribute('disabled', true);
     this.resetBtn = this.createButton('reset', 'reset');
-    this.resetBtn.setAttribute('disabled', true);
+    this.blockBtns();
     this.view = createElement('div', 'controls');
     this.view.append(this.menuBtn, this.pauseBtn, this.resetBtn);
 
@@ -24,13 +23,23 @@ export default class Controls extends View {
     return el;
   }
 
+  unblockBtns() {
+    this.resetBtn.removeAttribute('disabled');
+    this.pauseBtn.removeAttribute('disabled');
+  }
+
+  blockBtns() {
+    this.resetBtn.setAttribute('disabled', true);
+    this.pauseBtn.setAttribute('disabled', true);
+  }
+
   handleMenuBtn() {
     this.eventEmiter.emit('openmenu');
   }
 
-  unblockBtns() {
-    this.resetBtn.removeAttribute('disabled');
-    this.pauseBtn.removeAttribute('disabled');
+  handleResetBtn() {
+    this.eventEmiter.emit('newgame');
+    this.blockBtns();
   }
 
   handlePauseBtn(e) {
@@ -50,6 +59,7 @@ export default class Controls extends View {
   addListeners() {
     this.menuBtn.addEventListener('click', () => this.handleMenuBtn());
     this.pauseBtn.addEventListener('click', (e) => this.handlePauseBtn(e));
+    this.resetBtn.addEventListener('click', () => this.handleResetBtn());
   }
 
   init() {

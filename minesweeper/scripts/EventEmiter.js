@@ -5,7 +5,7 @@ export default class EventEmiter {
 
   checkEvent(event) {
     if (!this.listeners[event]) {
-      throw new Error(`Нет события: ${event}`);
+      throw new Error(`event is not attached: "${event}"`);
     }
   }
 

@@ -13,11 +13,14 @@ export default class Field extends View {
     emiter.attach('showCell', this.showCell.bind(this));
     emiter.attach('pause', this.handlePause.bind(this));
     emiter.attach('resume', this.handleResume.bind(this));
+    emiter.attach('gamestart', this.init.bind(this));
   }
 
 
   init(x, y) {
     const cells = [];
+    // remove old fild
+    this.view.innerHTML = ''
     this.view.style.gridTemplateColumns = `repeat(${x}, 1fr)`;
     for (let i = 0; i < y; i++) {
       for (let j = 0; j < x; j++) {

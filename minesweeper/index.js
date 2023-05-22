@@ -22,10 +22,7 @@ const fieldView = new Field({
   container: layout,
 });
 
-const game = new Game({
-  view: fieldView,
-  emiter: eventEmiter,
-});
+const game = new Game({ emiter: eventEmiter });
 
 document.body.appendChild(layout);
 scoreboard.init();

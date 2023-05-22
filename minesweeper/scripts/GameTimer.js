@@ -5,9 +5,8 @@ export default class GameTimer {
     this.time = 0;
     emiter.attach('firstmove', () => this.start());
     emiter.attach('pause', () => this.pause());
-    emiter.attach('resume', () => {
-      this.start();
-    });
+    emiter.attach('resume', () => this.start());
+    emiter.attach('newgame', () => this.reset());
   }
 
   start() {
@@ -23,5 +22,12 @@ export default class GameTimer {
 
   pause() {
     clearInterval(this.timer);
+  }
+
+  reset() {
+    clearInterval(this.timer);
+    this.startTick = 0;
+    this.time = 0;
+    this.eventEmiter.emit('tick', 0);
   }
 }

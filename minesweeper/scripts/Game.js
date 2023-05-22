@@ -1,14 +1,22 @@
-import { BOMB_TAG, aroundCellCoords } from "../utills/constants.js";
+import { BOMB_TAG, aroundCellCoords, gameSettings } from "../utills/constants.js";
 import { getRandomInt } from "../utills/utills.js";
 
 export default class Game {
-  constructor({ view, emiter }) {
+  constructor({ emiter, settings = gameSettings.easy }) {
     this.eventEmiter = emiter;
-    this.view = view;
+    this.gameSettings = settings;
     this.firstMove = true;
     this.bombsCoords = [];
     this.openedCells = 0;
     emiter.attach('open', this.openCell.bind(this));
+    emiter.attach('newgame', this.start.bind(this));
+  }
+
+  handleNewgame(settings) {
+    if (settings) {
+      this.gameSettings = settings;
+    }
+    this.start();
   }
 
   createField(x, y) {
@@ -108,13 +116,14 @@ export default class Game {
     this.eventEmiter.emit('showCell', x, y, value);
   }
 
-  start(gameSettings) {
-    const { x, y, bombs } = gameSettings;
+  start() {
+    const { x, y, bombs } = this.gameSettings;
     this.xSize = x;
     this.ySize = y;
     this.fieldSize = x * y;
     this.bombsQty = bombs;
     this.createField(x, y);
-    this.view.init(x, y);
+
+    this.eventEmiter.emit('gamestart', x, y);
   }
 }
