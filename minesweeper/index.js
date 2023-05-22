@@ -22,7 +22,6 @@ const winPopup = new WinPopup({ container: document.body, emiter: eventEmiter })
 const timer = new GameTimer({ emiter: eventEmiter });
 const sounds = new Sounds({ emitter: eventEmiter });
 const themeSwitcher = new ThemeSwitcher({ emitter: eventEmiter, rootElement: document.body });
-menuPopup.open();
 
 const fieldView = new Field({
   emiter: eventEmiter,
@@ -39,4 +38,6 @@ menuPopup.init();
 winPopup.init();
 sounds.init();
 themeSwitcher.init();
-console.log(eventEmiter)
+alert(
+  'Уважаемый проверяющий! Прошу по-возможности проверить работу 24 числа или позднее. Из-за совмещения с фулл-тайм работой не успел завершить 3 пункта:\n 1.сохранение состояния между перезагрузками\n 2.таблица рекордов\n 3.адаптивность верстки' 
+)
