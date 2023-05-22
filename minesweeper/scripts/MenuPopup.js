@@ -31,7 +31,10 @@ export default class MenuPopup extends Popup {
       'menu__icon-btn',
       this.sounds === soundsState.ON ? 'menu__icon-btn_type_sound' : 'menu__icon-btn_type_mute',
     ]);
-    this.themeBtn = createElement('button', ['menu__icon-btn', 'menu__icon-btn_type_theme']);
+    this.themeBtn = createElement('button', [
+      'menu__icon-btn',
+      this.theme === themes.LIGHT ? 'menu__icon-btn_type_theme-light' : 'menu__icon-btn_type_theme-dark',
+    ]);
     this.statsBtn = createElement('button', ['menu__icon-btn', 'menu__icon-btn_type_stats']);
 
     buttons.append(this.soundsBtn, this.themeBtn, this.statsBtn);
@@ -62,6 +65,13 @@ export default class MenuPopup extends Popup {
       const newState = this.sounds === soundsState.ON ? soundsState.OFF : soundsState.ON;
       this.sounds = newState;
       this.emiter.emit('soundchange', newState);
+    });
+    this.themeBtn.addEventListener('click', () => {
+      this.themeBtn.classList.toggle('menu__icon-btn_type_theme-light');
+      this.themeBtn.classList.toggle('menu__icon-btn_type_theme-dark');
+      const newTheme = this.theme === themes.LIGHT ? themes.DARK : themes.LIGHT;
+      this.theme = newTheme;
+      this.emiter.emit('themechange', newTheme);
     })
   }
   

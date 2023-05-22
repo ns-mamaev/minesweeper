@@ -10,6 +10,14 @@ body {
   min-height: 100vh;
 }
 
+.app_light {
+  --cell-color: #eeeaea;
+}
+
+.app_dark {
+  --cell-color: #a6ada4;
+}
+
 button {
   border: none;
   background: none;
@@ -36,7 +44,7 @@ button {
 .game-field__cell {
   width: 32px;
   height: 32px;
-  background-color: #eeeaea;
+  background-color: var(--cell-color);
   cursor: pointer;
 }
 

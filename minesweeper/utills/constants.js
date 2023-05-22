@@ -29,8 +29,8 @@ export const qtySuffixes = {
 }
 
 export const themes = {
-  LIGHT: 'light',
-  DARK: 'dark',
+  LIGHT: 'app_light',
+  DARK: 'app_dark',
 };
 
 export const soundsState = {

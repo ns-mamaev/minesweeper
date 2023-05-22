@@ -35,8 +35,12 @@
   background-image: url(../assets/images/volume-x.svg);
 }
 
-.menu__icon-btn_type_theme {
+.menu__icon-btn_type_theme-light {
   background-image: url(../assets/images/sun.svg);
+}
+
+.menu__icon-btn_type_theme-dark {
+  background-image: url(../assets/images/moon.svg);
 }
 
 .menu__icon-btn_type_stats {

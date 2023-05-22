@@ -105,8 +105,7 @@ export default class Game {
       default:
         this.handleOpenCell(x, y, cellValue);
         break;
-    }
-    // this.saveCellState(x, y);
+    };
     this.checkWinning();
   }
 
@@ -137,17 +136,6 @@ export default class Game {
     this.eventEmiter.emit('showCell', x, y, value);
   }
 
-  // keep game in LS
-  // saveCellState(x, y) {
-  //   localStorage.setItem(`cell${x}x${y}`, JSON.stringify(this.field[y][x]));
-  // }
-
-  // clearStoredGame() {
-  // }
-
-  // restoreGame() {
-
-  // }
 
   start() {
     const { x, y, bombs } = this.gameSettings;
