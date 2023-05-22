@@ -19,7 +19,8 @@ const controls = new Controls({ container: layout, emiter: eventEmiter });
 const menuPopup = new MenuPopup({ container: document.body, emiter: eventEmiter });
 const winPopup = new WinPopup({ container: document.body, emiter: eventEmiter });
 const timer = new GameTimer({ emiter: eventEmiter });
-const sounds = new Sounds({ emitter: eventEmiter })
+const sounds = new Sounds({ emitter: eventEmiter });
+menuPopup.open();
 
 const fieldView = new Field({
   emiter: eventEmiter,

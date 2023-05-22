@@ -1,8 +1,8 @@
 export const gameSettings = {
   easy: {
-    x: 2,
-    y: 2,
-    bombs: 2,
+    x: 10,
+    y: 10,
+    bombs: 10,
   },
   medium: {
     x: 15,
@@ -26,4 +26,14 @@ export const qtySuffixes = {
   3: 'l',
   4: 'xl',
   more: 'more',
+}
+
+export const themes = {
+  LIGHT: 'light',
+  DARK: 'dark',
+};
+
+export const soundsState = {
+  OFF: '0',
+  ON: '1',
 }

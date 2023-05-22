@@ -1,10 +1,13 @@
-import { gameSettings } from "../utills/constants.js";
+import { gameSettings, soundsState, themes } from "../utills/constants.js";
 import { createElement } from "../utills/utills.js";
 import Popup from "./Popup.js";
 
 export default class MenuPopup extends Popup {
   constructor({ container, emiter }) {
     super({ container, className:'popup_type_menu' })
+    this.theme = localStorage.getItem('theme') || themes.LIGHT;
+    this.sounds = localStorage.getItem('sounds') || soundsState.ON;
+
     this.emiter = emiter;
     this.emiter.attach('openmenu', () => this.open());
     
@@ -16,10 +19,24 @@ export default class MenuPopup extends Popup {
     .keys(gameSettings)
     .map((difficulty) => this.createGameButton(difficulty, gameSettings[difficulty]));
     difficulty.append(...difficultyButtons);
-    
-    this.content.append(heading, difficulty);
+    const iconButtons = this.createIconButtons();
+    this.content.append(heading, difficulty, iconButtons);
 
     this.inner.append(this.content);
+  }
+
+  createIconButtons() {
+    const buttons = createElement('div', 'menu__icons');
+    this.soundsBtn = createElement('button', [
+      'menu__icon-btn',
+      this.sounds === soundsState.ON ? 'menu__icon-btn_type_sound' : 'menu__icon-btn_type_mute',
+    ]);
+    this.themeBtn = createElement('button', ['menu__icon-btn', 'menu__icon-btn_type_theme']);
+    this.statsBtn = createElement('button', ['menu__icon-btn', 'menu__icon-btn_type_stats']);
+
+    buttons.append(this.soundsBtn, this.themeBtn, this.statsBtn);
+
+    return buttons;
   }
 
   createGameButton(difficulty, settings) {
@@ -37,5 +54,15 @@ export default class MenuPopup extends Popup {
     return btn;
   }
 
+  addListeners() {
+    super.addListeners();
+    this.soundsBtn.addEventListener('click', () => {
+      this.soundsBtn.classList.toggle('menu__icon-btn_type_sound');
+      this.soundsBtn.classList.toggle('menu__icon-btn_type_mute');
+      const newState = this.sounds === soundsState.ON ? soundsState.OFF : soundsState.ON;
+      this.sounds = newState;
+      this.emiter.emit('soundchange', newState);
+    })
+  }
   
 }

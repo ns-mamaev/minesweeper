@@ -10,13 +10,47 @@
 }
 
 .menu__difficulty-btn {
-  background-color: #eee;
-  border-radius: 6px;
   padding: 12px;
   min-width: 100px;
+}
+
+.menu__icons {
+  margin-top: 24px;
+  display: flex;
+  justify-content: space-around;
+}
+
+.menu__icon-btn {
+  width: 56px;
+  height: 56px;
+  background: center / 50% no-repeat;
+
+}
+
+.menu__icon-btn_type_sound {
+  background-image: url(../assets/images/volume-2.svg);
+}
+
+.menu__icon-btn_type_mute {
+  background-image: url(../assets/images/volume-x.svg);
+}
+
+.menu__icon-btn_type_theme {
+  background-image: url(../assets/images/sun.svg);
+}
+
+.menu__icon-btn_type_stats {
+  background-image: url(../assets/images/clipboard.svg);
+}
+
+.menu__icon-btn,
+.menu__difficulty-btn {
+  background-color: #eee;
+  border-radius: 6px;
   cursor: pointer;
 }
 
+.menu__icon-btn:hover,
 .menu__difficulty-btn:hover {
   opacity: 0.8;
 }
