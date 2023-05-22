@@ -16,7 +16,7 @@ export default class Scoreboard extends View {
 
     emiter.attach('tick', (seconds) => this.changeTime(seconds));
     emiter.attach('changescore', (score) => this.score = score);
-    emiter.attach('gamestart', (args) => this.handleNewGame(args))
+    emiter.attach('gamestart', (args) => this.handleNewGame(args));
   }
 
   set timer(timeString) {
@@ -28,7 +28,6 @@ export default class Scoreboard extends View {
   }
 
   set flags(value) {
-    console.log(this._flagsEl)
     this._flagsEl.textContent = value;
   }
 

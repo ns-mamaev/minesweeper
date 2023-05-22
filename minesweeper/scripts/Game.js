@@ -4,7 +4,8 @@ import { getRandomInt } from "../utills/utills.js";
 export default class Game {
   constructor({ emiter, settings = gameSettings.easy }) {
     this.eventEmiter = emiter;
-    this.gameSettings = settings;
+    const storedSettings = JSON.parse(localStorage.getItem('gameSettings'));
+    this.gameSettings = storedSettings || settings;
     emiter.attach('open', this.handlePlayerMove.bind(this));
     emiter.attach('newgame', this.handleNewgame.bind(this));
   }
@@ -12,6 +13,7 @@ export default class Game {
   handleNewgame(settings) {
     if (settings) {
       this.gameSettings = settings;
+      localStorage.setItem('gameSettings', JSON.stringify(settings));
     }
     this.start();
   }
@@ -110,7 +112,7 @@ export default class Game {
 
   checkWinning() {
     if (this.fieldSize - this.openedCells <= this.bombsQty) {
-      console.log('WIN!') 
+      this.eventEmiter.emit('win');
     }
   }
 

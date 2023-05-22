@@ -7,6 +7,8 @@ export default class GameTimer {
     emiter.attach('pause', () => this.pause());
     emiter.attach('resume', () => this.start());
     emiter.attach('newgame', () => this.reset());
+    emiter.attach('gameover', () => this.pause());
+    emiter.attach('win', () => this.pause());
   }
 
   start() {

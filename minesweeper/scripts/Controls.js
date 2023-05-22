@@ -13,6 +13,8 @@ export default class Controls extends View {
     this.view.append(this.menuBtn, this.pauseBtn, this.resetBtn);
 
     emiter.attach('firstmove', () => this.unblockBtns());
+    emiter.attach('gameover', () => this.pauseBtn.disabled = true);
+    emiter.attach('win', () => this.pauseBtn.disabled = true);
   }
 
   createButton(caption, type) {
