@@ -16,3 +16,13 @@ export function createElement(tagName, classNames, textContent) {
   }
   return el;
 }
+
+const normalizeTimePart = (timePart) => timePart < 10 ? '0' + timePart : timePart;
+
+export function createTimeString(time) {
+  const seconds = time % 60;
+  const hours = Math.floor(time / 3600)
+  const minutes = Math.floor((time % 3600) / 60);
+
+  return `${normalizeTimePart(hours)}:${normalizeTimePart(minutes)}:${normalizeTimePart(seconds)}`;
+}

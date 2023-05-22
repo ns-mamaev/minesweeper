@@ -64,6 +64,7 @@ export default class Game {
       const firstMoveIndex = y * this.xSize + x;
       this.setBombs(firstMoveIndex);
       this.firstMove = false;
+      this.eventEmiter.emit('firstmove');
     }
 
     const cellValue = this.field[y][x].value;

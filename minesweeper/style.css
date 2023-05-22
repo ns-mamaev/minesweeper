@@ -144,8 +144,22 @@ button {
   outline: none;
 }
 
+.controls__button:disabled {
+  color: unset;
+  opacity: 0.2;
+  cursor: unset;
+}
+
+.controls__button:disabled:hover {
+  opacity: 0.2;
+}
+
 .controls__button:hover .controls__img {
   opacity: 0.6;
+}
+
+.controls__button:disabled:hover .controls__img {
+  opacity: unset
 }
 
 .controls__button:active .controls__img {

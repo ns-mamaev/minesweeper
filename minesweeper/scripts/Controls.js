@@ -4,15 +4,16 @@ import View from "./View.js";
 export default class Controls extends View {
   constructor({ container, emiter }) {
     super(container);
-    this.emiter = emiter
-    this.score = 0;
-    this.timer = 0;
-    this.bombsQty = 0;
+    this.eventEmiter = emiter
     this.menuBtn = this.createButton('menu', 'menu');
     this.pauseBtn = this.createButton('pause', 'pause');
+    this.pauseBtn.setAttribute('disabled', true);
     this.resetBtn = this.createButton('reset', 'reset');
+    this.resetBtn.setAttribute('disabled', true);
     this.view = createElement('div', 'controls');
     this.view.append(this.menuBtn, this.pauseBtn, this.resetBtn);
+
+    emiter.attach('firstmove', () => this.unblockBtns());
   }
 
   createButton(caption, type) {
@@ -24,12 +25,31 @@ export default class Controls extends View {
   }
 
   handleMenuBtn() {
-    this.emiter.emit('openmenu');
+    this.eventEmiter.emit('openmenu');
   }
 
+  unblockBtns() {
+    this.resetBtn.removeAttribute('disabled');
+    this.pauseBtn.removeAttribute('disabled');
+  }
+
+  handlePauseBtn(e) {
+    const btnClasses = e.currentTarget.classList
+    if (btnClasses.contains('controls__button_type_pause')) {
+      // shold pause
+      btnClasses.remove('controls__button_type_pause');
+      btnClasses.add('controls__button_type_play');
+      this.eventEmiter.emit('pause');
+    } else {
+      btnClasses.remove('controls__button_type_play');
+      btnClasses.add('controls__button_type_pause');
+      this.eventEmiter.emit('resume');
+    }
+  }
 
   addListeners() {
     this.menuBtn.addEventListener('click', () => this.handleMenuBtn());
+    this.pauseBtn.addEventListener('click', (e) => this.handlePauseBtn(e));
   }
 
   init() {

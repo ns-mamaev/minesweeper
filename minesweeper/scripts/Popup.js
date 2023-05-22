@@ -4,7 +4,7 @@ import View from "./View.js";
 export default class Popup extends View {
   constructor({ container, className }) {
     super(container);
-    this.view = createElement('div', ['popup', className, 'popup_opened'])
+    this.view = createElement('div', ['popup', className])
     this.inner = createElement('div', 'popup__inner');
     this.closeBtn = createElement('button', 'popup__close-btn')
     this.inner.append(this.closeBtn);
