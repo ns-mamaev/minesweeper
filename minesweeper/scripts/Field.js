@@ -16,8 +16,7 @@ export default class Field extends View {
     emiter.attach('gamestart', this.init.bind(this));
   }
 
-
-  init(x, y) {
+  init({ x, y }) {
     const cells = [];
     // remove old fild
     this.view.innerHTML = ''
@@ -74,14 +73,16 @@ export default class Field extends View {
     this.pauseStub.replaceWith(this.view);
   }
 
+  openCell(e) {
+    const cell = e.target.closest('.game-field__cell');
+    if (cell && !cell.classList.contains('game-field__cell_type_opened')) {
+      const [ x, y ] = cell.dataset.coords.split('x');
+      this.eventEmiter.emit('open', +x, +y);
+    }
+  }
+
   addListeners() {
-    this.view.addEventListener('click', (e) => {
-      const cell = e.target.closest('.game-field__cell');
-      if (cell && !cell.classList.contains('game-field__cell_type_opened')) {
-        const [ x, y ] = cell.dataset.coords.split('x');
-        this.eventEmiter.emit('open', +x, +y);
-      }
-    });
+    this.view.addEventListener('click', (e) => this.openCell(e));
     this.view.addEventListener('contextmenu', (e) => {
       e.preventDefault();
       const cell = e.target.closest('.game-field__cell');

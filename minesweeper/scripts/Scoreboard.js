@@ -4,21 +4,38 @@ import View from "./View.js";
 export default class Scoreboard extends View {
   constructor({ container, emiter }) {
     super(container);
-    this.eventEmiter = emiter
-    this.score = 0;
-    this.bombsQty = 0;
+    this.eventEmiter = emiter;
     this.view = createElement('div', 'scoreboard');
-    const scoreCard = this.createCard(this.score, 'score');
+    const scoreCard = this.createCard(0, 'score');
     const timerCard = this.createCard('00:00:00', 'time');
-    const flagsCard = this.createCard(this.bombsQty, 'flags')
+    const flagsCard = this.createCard(0, 'flags')
     this.view.append(scoreCard, timerCard, flagsCard)
-    this._timer = timerCard.firstElementChild;
+    this._timerEl = timerCard.firstElementChild;
+    this._scoreEl = scoreCard.firstElementChild;
+    this._flagsEl = flagsCard.firstElementChild;
 
     emiter.attach('tick', (seconds) => this.changeTime(seconds));
+    emiter.attach('changescore', (score) => this.score = score);
+    emiter.attach('gamestart', (args) => this.handleNewGame(args))
   }
 
   set timer(timeString) {
-    this._timer.textContent = timeString;
+    this._timerEl.textContent = timeString;
+  }
+
+  set score(value) {
+    this._scoreEl.textContent = value;
+  }
+
+  set flags(value) {
+    console.log(this._flagsEl)
+    this._flagsEl.textContent = value;
+  }
+
+  handleNewGame({ bombs }) {
+    this.timer = '00:00:00';
+    this.score = 0;
+    this.flags = `0/${bombs}`;
   }
 
   createCard(value, type) {

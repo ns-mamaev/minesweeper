@@ -5,8 +5,8 @@ export default class Game {
   constructor({ emiter, settings = gameSettings.easy }) {
     this.eventEmiter = emiter;
     this.gameSettings = settings;
-    emiter.attach('open', this.openCell.bind(this));
-    emiter.attach('newgame', this.start.bind(this));
+    emiter.attach('open', this.handlePlayerMove.bind(this));
+    emiter.attach('newgame', this.handleNewgame.bind(this));
   }
 
   handleNewgame(settings) {
@@ -63,15 +63,20 @@ export default class Game {
     })
   }
 
-  openCell(x, y) {
-    // user cannot lose the game on the first move - bombs set after first move
+  handlePlayerMove(x, y) {
+     // user cannot lose the game on the first move - bombs set after first move
     if (this.firstMove) {
       const firstMoveIndex = y * this.xSize + x;
       this.setBombs(firstMoveIndex);
       this.firstMove = false;
       this.eventEmiter.emit('firstmove');
     }
+    this.moves++;
+    this.eventEmiter.emit('changescore', this.moves);
+    this.openCell(x, y);
+  }
 
+  openCell(x, y) {
     const cellValue = this.field[y][x].value;
     this.field[y][x].opened = true;
     this.openedCells++;
@@ -118,12 +123,13 @@ export default class Game {
     this.firstMove = true;
     this.bombsCoords = [];
     this.openedCells = 0;
+    this.moves = 0;
     this.xSize = x;
     this.ySize = y;
     this.fieldSize = x * y;
     this.bombsQty = bombs;
     this.createField(x, y);
 
-    this.eventEmiter.emit('gamestart', x, y);
+    this.eventEmiter.emit('gamestart', { x, y, bombs });
   }
 }

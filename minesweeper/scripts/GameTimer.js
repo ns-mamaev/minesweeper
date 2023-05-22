@@ -28,6 +28,5 @@ export default class GameTimer {
     clearInterval(this.timer);
     this.startTick = 0;
     this.time = 0;
-    this.eventEmiter.emit('tick', 0);
   }
 }

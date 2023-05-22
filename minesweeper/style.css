@@ -30,12 +30,12 @@ button {
   padding: 10px;
   background-color: #ccc;
   list-style: none;
-  grid-gap: 8px;
+  grid-gap: 4px;
 }
 
 .game-field__cell {
-  width: 48px;
-  height: 48px;
+  width: 32px;
+  height: 32px;
   background-color: #eeeaea;
   cursor: pointer;
 }

@@ -24,7 +24,11 @@ export default class MenuPopup extends Popup {
 
   createGameButton(difficulty, settings) {
     const { x, y, bombs } = settings;
-    const btn = createElement('button', 'menu__difficulty-btn')
+    const btn = createElement('button', 'menu__difficulty-btn');
+    btn.addEventListener('click', () => {
+      this.emiter.emit('newgame', settings);
+      this.close();
+    })
     btn.innerHTML = `
       <h3>${difficulty}</h3>
       <p>${x} x ${y}</p>
@@ -32,4 +36,6 @@ export default class MenuPopup extends Popup {
     `;
     return btn;
   }
+
+  
 }

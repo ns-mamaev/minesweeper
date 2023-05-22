@@ -25,7 +25,6 @@ export default class Popup extends View {
   }
 
   handleClick(e) {
-    console.log('click')
     if (e.target === this.closeBtn || e.target === this.view) {
       this.close();
     }
