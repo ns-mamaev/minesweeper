@@ -5,6 +5,7 @@ import Game from './scripts/Game.js';
 import GameTimer from './scripts/GameTimer.js';
 import MenuPopup from './scripts/MenuPopup.js';
 import Scoreboard from './scripts/Scoreboard.js';
+import Sounds from './scripts/Sounds.js';
 import WinPopup from './scripts/WinPopup.js';
 import { gameSettings } from './utills/constants.js';
 import { createElement } from './utills/utills.js';
@@ -18,6 +19,7 @@ const controls = new Controls({ container: layout, emiter: eventEmiter });
 const menuPopup = new MenuPopup({ container: document.body, emiter: eventEmiter });
 const winPopup = new WinPopup({ container: document.body, emiter: eventEmiter });
 const timer = new GameTimer({ emiter: eventEmiter });
+const sounds = new Sounds({ emitter: eventEmiter })
 
 const fieldView = new Field({
   emiter: eventEmiter,
@@ -32,4 +34,5 @@ game.start(gameSettings.easy);
 controls.init();
 menuPopup.init();
 winPopup.init();
+sounds.init();
 console.log(eventEmiter)

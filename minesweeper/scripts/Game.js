@@ -82,7 +82,6 @@ export default class Game {
   openCell(x, y) {
     const cell = this.field[y][x];
     const { value: cellValue, flag } = cell;
-    console.log(cell)
     if (flag) {
       return;
     }

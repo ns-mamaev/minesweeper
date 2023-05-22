@@ -45,17 +45,17 @@ button {
 }
 
 .game-field__cell_type_bomb {
-  background: center / 70% no-repeat url(./assets/bomb.png);
+  background: center / 70% no-repeat url(./assets/images/bomb.png);
   background-color: #bbb;
 }
 
 .game-field__cell_type_current-bomb {
-  background: center / 70% no-repeat url(./assets/explosion.png);
+  background: center / 70% no-repeat url(./assets/images/explosion.png);
   background-color: #bbb;
 }
 
 .game-field__cell_type_flag {
-  background: center / 70% no-repeat url(./assets/flag.png);
+  background: center / 70% no-repeat url(./assets/images/flag.png);
   background-color: #eeeaea;
 }
 
@@ -125,15 +125,15 @@ button {
 }
 
 .scoreboard__item-caption_type_time {
-  background-image: url(./assets/timer.png);
+  background-image: url(./assets/images/timer.png);
 }
 
 .scoreboard__item-caption_type_score {
-  background-image: url(./assets/moves.png);
+  background-image: url(./assets/images/moves.png);
 }
 
 .scoreboard__item-caption_type_flags {
-  background-image: url(./assets/flag.png);
+  background-image: url(./assets/images/flag.png);
 }
 
 .controls__button:hover {
@@ -167,18 +167,18 @@ button {
 }
 
 .controls__button_type_menu .controls__img {
-  background-image: url(./assets/menu.svg);
+  background-image: url(./assets/images/menu.svg);
 }
 
 .controls__button_type_pause .controls__img {
-  background-image: url(./assets/pause.svg);
+  background-image: url(./assets/images/pause.svg);
 }
 
 .controls__button_type_play .controls__img {
-  background-image: url(./assets/play.svg);
+  background-image: url(./assets/images/play.svg);
 }
 
 .controls__button_type_reset .controls__img {
-  background-image: url(./assets/refresh-ccw.svg);
+  background-image: url(./assets/images/refresh-ccw.svg);
 }
 
