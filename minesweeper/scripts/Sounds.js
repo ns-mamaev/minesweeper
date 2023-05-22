@@ -34,9 +34,9 @@ export default class Sounds {
   }
 
   init() {
-    this.win = new Audio('./assets/sounds/win.wav');
-    this.lose = new Audio('./assets/sounds/lose.wav');
-    this.open = new Audio('./assets/sounds/click.wav');
+    this.win = new Audio('./assets/sounds/win.mp3');
+    this.lose = new Audio('./assets/sounds/lose.mp3');
+    this.open = new Audio('./assets/sounds/click.mp3');
     const state = localStorage.getItem('sounds');
     if (!state || state === '1') {
       this.on();
