@@ -5,9 +5,6 @@ export default class Game {
   constructor({ emiter, settings = gameSettings.easy }) {
     this.eventEmiter = emiter;
     this.gameSettings = settings;
-    this.firstMove = true;
-    this.bombsCoords = [];
-    this.openedCells = 0;
     emiter.attach('open', this.openCell.bind(this));
     emiter.attach('newgame', this.start.bind(this));
   }
@@ -118,6 +115,9 @@ export default class Game {
 
   start() {
     const { x, y, bombs } = this.gameSettings;
+    this.firstMove = true;
+    this.bombsCoords = [];
+    this.openedCells = 0;
     this.xSize = x;
     this.ySize = y;
     this.fieldSize = x * y;
