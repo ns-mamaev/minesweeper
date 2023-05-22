@@ -1,3 +1,4 @@
+import Controls from './scripts/Controls.js';
 import EventEmiter from './scripts/EventEmiter.js';
 import Field from './scripts/Field.js';
 import Game from './scripts/Game.js';
@@ -9,7 +10,7 @@ const layout = createElement('main', 'main');
 document.body.appendChild(layout);
 
 const scoreboard = new Scoreboard({ container: layout });
-scoreboard.init();
+const controls = new Controls({ container: layout });
 
 const eventEmiter = new EventEmiter();
 const fieldView = new Field({
@@ -22,4 +23,6 @@ const game = new Game({
   emiter: eventEmiter,
 });
 
+scoreboard.init();
 game.start(gameSettings.easy);
+controls.init();
