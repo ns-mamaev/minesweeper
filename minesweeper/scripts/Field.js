@@ -1,12 +1,13 @@
 import { qtySuffixes } from "../utills/constants.js";
+import View from "./View.js";
 
-export default class Field {
-  constructor({ emiter }) {
-    const view = document.createElement('ul')
-    view.classList.add('game-field');
-
-    this.view = view;
+export default class Field extends View {
+  constructor({ emiter, container }) {
+    super(container);
+    this.view = document.createElement('ul')
+    this.view.classList.add('game-field');
     this.eventEmiter = emiter;
+    this.container = container;
     emiter.attach('gameover', this.handleGameover.bind(this));
     emiter.attach('showCell', this.showCell.bind(this));
   }
@@ -28,10 +29,6 @@ export default class Field {
 
     this.render();
     this.addListeners();
-  }
-
-  render() {
-    document.body.append(this.view);
   }
 
   findCell(x, y) {
