@@ -13,10 +13,12 @@ export default class Scoreboard extends View {
     this._timerEl = timerCard.firstElementChild;
     this._scoreEl = scoreCard.firstElementChild;
     this._flagsEl = flagsCard.firstElementChild;
+    this.bombsQty = null;
 
     emiter.attach('tick', (seconds) => this.changeTime(seconds));
     emiter.attach('changescore', (score) => this.score = score);
     emiter.attach('gamestart', (args) => this.handleNewGame(args));
+    emiter.attach('changeflags', (qty) => this.flags = qty)
   }
 
   set timer(timeString) {
@@ -28,13 +30,14 @@ export default class Scoreboard extends View {
   }
 
   set flags(value) {
-    this._flagsEl.textContent = value;
+    this._flagsEl.textContent = `${value}/${this.bombsQty}`;
   }
 
   handleNewGame({ bombs }) {
+    this.bombsQty = bombs;
     this.timer = '00:00:00';
     this.score = 0;
-    this.flags = `0/${bombs}`;
+    this.flags = 0;
   }
 
   createCard(value, type) {

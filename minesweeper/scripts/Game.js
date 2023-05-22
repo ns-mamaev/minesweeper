@@ -8,6 +8,7 @@ export default class Game {
     this.gameSettings = storedSettings || settings;
     emiter.attach('open', this.handlePlayerMove.bind(this));
     emiter.attach('newgame', this.handleNewgame.bind(this));
+    emiter.attach('flag', this.flagCell.bind(this));
   }
 
   handleNewgame(settings) {
@@ -20,7 +21,7 @@ export default class Game {
 
   createField(x, y) {
     const field = [...Array(y)]
-      .map(() => [...Array(x)].map(() => ({ value: 0, opened: false })));
+      .map(() => [...Array(x)].map(() => ({ value: 0, opened: false, flag: false })));
     this.field = field;
   }
 
@@ -32,7 +33,7 @@ export default class Game {
       if (nearbyCellX > this.xSize - 1 || nearbyCellX < 0) continue;
       if (nearbyCellY > this.ySize - 1 || nearbyCellY < 0) continue;
 
-      callback(nearbyCellX, nearbyCellY)
+      callback(nearbyCellX, nearbyCellY);
     }
   }
 
@@ -79,8 +80,13 @@ export default class Game {
   }
 
   openCell(x, y) {
-    const cellValue = this.field[y][x].value;
-    this.field[y][x].opened = true;
+    const cell = this.field[y][x];
+    const { value: cellValue, flag } = cell;
+    console.log(cell)
+    if (flag) {
+      return;
+    }
+    cell.opened = true;
     this.openedCells++;
 
     switch (cellValue) {
@@ -101,8 +107,20 @@ export default class Game {
         this.handleOpenCell(x, y, cellValue);
         break;
     }
-
+    // this.saveCellState(x, y);
     this.checkWinning();
+  }
+
+  flagCell(x, y) {
+    const cell = this.field[y][x];
+    if (cell.flag) {
+      this.flags--;
+      cell.flag = false;
+    } else {
+      this.flags++
+      cell.flag = true;
+    }
+    this.eventEmiter.emit('changeflags', this.flags);
   }
 
   handleGameOver(x, y) {
@@ -120,12 +138,25 @@ export default class Game {
     this.eventEmiter.emit('showCell', x, y, value);
   }
 
+  // keep game in LS
+  // saveCellState(x, y) {
+  //   localStorage.setItem(`cell${x}x${y}`, JSON.stringify(this.field[y][x]));
+  // }
+
+  // clearStoredGame() {
+  // }
+
+  // restoreGame() {
+
+  // }
+
   start() {
     const { x, y, bombs } = this.gameSettings;
     this.firstMove = true;
     this.bombsCoords = [];
     this.openedCells = 0;
     this.moves = 0;
+    this.flags = 0;
     this.xSize = x;
     this.ySize = y;
     this.fieldSize = x * y;

@@ -16,7 +16,7 @@ export default class Field extends View {
     emiter.attach('resume', this.handleResume.bind(this));
     emiter.attach('gamestart', this.init.bind(this));
 
-    this.openCell = this.openCell.bind(this);
+    this.clickCell = this.clickCell.bind(this);
   }
 
   init({ x, y }) {
@@ -26,30 +26,30 @@ export default class Field extends View {
     this.view.innerHTML = '';
     this.view.style.gridTemplateColumns = `repeat(${x}, 1fr)`;
     for (let i = 0; i < y; i++) {
+      const row = [];
       for (let j = 0; j < x; j++) {
         const cell = document.createElement('li');
         cell.classList.add('game-field__cell');
         const coords = `${j}x${i}`;
         cell.setAttribute('data-coords', coords);
-        
-        cells.push(cell);
+        row.push(cell);
       }
+      cells.push(row);
     }
-    this.view.append(...cells);
+    const flatCells = cells.flat(1)
+    this.view.append(...flatCells);
+    this.cells = cells;
 
     this.render();
     this.addListeners();
   }
 
-  findCell(x, y) {
-    return this.view.querySelector(`[data-coords="${x}x${y}"]`);
-  }
 
   handleGameover(bombsCoords, currentBombCoords) {
     this.removeListeners();
     const { x: currentX, y: currentY } = currentBombCoords;
     bombsCoords.forEach(({ x, y }) => {
-      const cell = this.findCell(x, y);
+      const cell = this.cells[y][x];
       const bombClass = x === currentX && y === currentY
         ? 'game-field__cell_type_current-bomb'
         : 'game-field__cell_type_bomb';
@@ -59,7 +59,7 @@ export default class Field extends View {
   }
 
   showCell(x, y, content) {
-    const cell = this.findCell(x, y);
+    const cell = this.cells[y][x];
     if (content) {
       cell.textContent = content;
       const classSufix = qtySuffixes[content] || qtySuffixes.more;
@@ -78,26 +78,28 @@ export default class Field extends View {
     this.pauseStub.replaceWith(this.view);
   }
 
-  openCell(e) {
+  clickCell(e) {
     const cell = e.target.closest('.game-field__cell');
     if (cell && !cell.classList.contains('game-field__cell_type_opened')) {
       const [ x, y ] = cell.dataset.coords.split('x');
-      this.eventEmiter.emit('open', +x, +y);
+      if (e.type === 'click' && !cell.classList.contains('game-field__cell_type_flag')) {
+        this.eventEmiter.emit('open', +x, +y);
+      }
+      if (e.type === 'contextmenu') {
+        e.preventDefault();
+        this.eventEmiter.emit('flag', +x, +y);
+        cell.classList.toggle('game-field__cell_type_flag')
+      }
     }
   }
 
   addListeners() {
-    this.view.addEventListener('click', this.openCell);
-  //   this.view.addEventListener('contextmenu', (e) => {
-  //     e.preventDefault();
-  //     const cell = e.target.closest('.game-field__cell');
-  //     if (cell) {
-  //       cell.classList.toggle('game-field__cell_type_flag');
-  //     }
-  //   })
+    this.view.addEventListener('click', this.clickCell);
+    this.view.addEventListener('contextmenu', this.clickCell);
   }
 
   removeListeners() {
-    this.view.removeEventListener('click', this.openCell);
+    this.view.removeEventListener('click', this.clickCell);
+    this.view.removeEventListener('contextmenu', this.clickCell)
   }
 }

@@ -2,7 +2,7 @@ export const gameSettings = {
   easy: {
     x: 2,
     y: 2,
-    bombs: 1,
+    bombs: 2,
   },
   medium: {
     x: 15,
