@@ -1,16 +1,20 @@
 import { qtySuffixes } from "../utills/constants.js";
+import { createElement } from "../utills/utills.js";
 import View from "./View.js";
 
 export default class Field extends View {
   constructor({ emiter, container }) {
     super(container);
-    this.view = document.createElement('ul')
-    this.view.classList.add('game-field');
+    this.view = createElement('ul', 'game-field');
+    this.pauseStub = createElement('div', 'game-field__stub', 'Game paused')
     this.eventEmiter = emiter;
     this.container = container;
     emiter.attach('gameover', this.handleGameover.bind(this));
     emiter.attach('showCell', this.showCell.bind(this));
+    emiter.attach('pause', this.handlePause.bind(this));
+    emiter.attach('resume', this.handleResume.bind(this));
   }
+
 
   init(x, y) {
     const cells = [];
@@ -57,6 +61,14 @@ export default class Field extends View {
       cell.classList.add('game-field__cell_type_empty');
     }
     cell.classList.add('game-field__cell_type_opened');
+  }
+
+  handlePause() {
+    this.view.replaceWith(this.pauseStub);
+  }
+
+  handleResume() {
+    this.pauseStub.replaceWith(this.view);
   }
 
   addListeners() {
