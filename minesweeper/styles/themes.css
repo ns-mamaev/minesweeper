@@ -1,0 +1,27 @@
+.app_light {
+  --cell-color: #eaeaea;
+  --text-color: #141414;
+  --background-color: #fff;
+  --field-color: #ccc;
+  --empty-cell-color: #fff;
+  --cell-color-s: #cde4c4;
+  --cell-color-m: #f2f19c;
+  --cell-color-l: #f0ba62;
+  --cell-color-xl: #eba36c;
+  --cell-color-more: #d36a5a;
+  --bomb-cell-color: #c2c1c1;
+}
+
+.app_dark {
+  --cell-color: #2d2f2d;
+  --text-color: #fff;
+  --background-color: #171717;
+  --field-color: #55594f;
+  --empty-cell-color: #a6ab9d;
+  --cell-color-s: #86a719;
+  --cell-color-m: #a6a616;
+  --cell-color-l: #be720f;
+  --cell-color-xl: #b54e1b;
+  --cell-color-more: #993121;
+  --bomb-cell-color: #c2c1c1;
+}
