@@ -171,6 +171,7 @@ export default class Game {
       const stats = {
         time: this.time,
         moves: this.moves,
+        bombsCoords: this.bombsCoords,
         ...this.gameSettings
       };
       this.clearGame();

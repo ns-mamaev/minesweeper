@@ -10,7 +10,7 @@ export default class Field extends View {
     this.eventEmiter = emiter;
     this.container = container;
     emiter.attach('gameover', this.handleGameover.bind(this));
-    emiter.attach('win', () => this.removeListeners());
+    emiter.attach('win', this.handleWin.bind(this));
     emiter.attach('showCell', this.showCell.bind(this));
     emiter.attach('pause', this.handlePause.bind(this));
     emiter.attach('resume', this.handleResume.bind(this));
@@ -57,13 +57,20 @@ export default class Field extends View {
     this.removeListeners();
     const { x: currentX, y: currentY } = currentBombCoords;
     bombsCoords.forEach(([ x, y ]) => {
-      const cell = this.cells[y][x];
       const bombClass = x === currentX && y === currentY
         ? 'game-field__cell_type_current-bomb'
         : 'game-field__cell_type_bomb';
 
-      cell.classList.add(bombClass);
+      this.cells[y][x].classList.add(bombClass);
     });
+  }
+
+  handleWin({ bombsCoords }) {
+    this.removeListeners();
+    bombsCoords.forEach(([x, y]) => {
+      const cell = this.cells[y][x];
+      cell.classList.add('game-field__cell_type_bomb');
+    })
   }
 
   showCell(x, y, content) {
