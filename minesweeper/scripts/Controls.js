@@ -11,6 +11,7 @@ export default class Controls extends View {
     this.blockBtns();
     this.view = createElement('div', 'controls');
     this.view.append(this.menuBtn, this.pauseBtn, this.resetBtn);
+    this.inPause = false;
 
     emiter.attach('firstmove', () => this.unblockBtns());
     emiter.attach('newgame', () => this.blockBtns());
@@ -41,27 +42,34 @@ export default class Controls extends View {
   }
 
   handleResetBtn() {
+    if (this.inPause) {
+      this.handlePauseBtn();
+    }
     this.eventEmiter.emit('newgame');
     this.blockBtns();
   }
 
-  handlePauseBtn(e) {
-    const btnClasses = e.currentTarget.classList
-    if (btnClasses.contains('controls__button_type_pause')) {
+  handlePauseBtn() {
+    const btnClasses = this.pauseBtn.classList
+    if (!this.inPause) {
       // shold pause
       btnClasses.remove('controls__button_type_pause');
       btnClasses.add('controls__button_type_play');
+      this.pauseBtn.lastChild.textContent = 'play';
+      this.inPause = true;
       this.eventEmiter.emit('pause');
     } else {
       btnClasses.remove('controls__button_type_play');
       btnClasses.add('controls__button_type_pause');
+      this.pauseBtn.lastChild.textContent = 'pause';
+      this.inPause = false;
       this.eventEmiter.emit('resume');
     }
   }
 
   addListeners() {
     this.menuBtn.addEventListener('click', () => this.handleMenuBtn());
-    this.pauseBtn.addEventListener('click', (e) => this.handlePauseBtn(e));
+    this.pauseBtn.addEventListener('click', () => this.handlePauseBtn());
     this.resetBtn.addEventListener('click', () => this.handleResetBtn());
   }
 
