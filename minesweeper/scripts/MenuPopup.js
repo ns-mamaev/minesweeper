@@ -14,7 +14,7 @@ export default class MenuPopup extends Popup {
     this.content = createElement('div', 'menu');
     const difficulty = createElement('div', 'menu__difficulty');
     
-    const heading = createElement('h2', 'menu__heading', 'Change difficulty');
+    const heading = createElement('h2', 'popup__heading', 'Change difficulty');
     const difficultyButtons = Object
     .keys(gameSettings)
     .map((difficulty) => this.createGameButton(difficulty, gameSettings[difficulty]));
@@ -57,22 +57,28 @@ export default class MenuPopup extends Popup {
     return btn;
   }
 
+  toggleSounds() {
+    this.soundsBtn.classList.toggle('menu__icon-btn_type_sound');
+    this.soundsBtn.classList.toggle('menu__icon-btn_type_mute');
+    const newState = this.sounds === soundsState.ON ? soundsState.OFF : soundsState.ON;
+    this.sounds = newState;
+    this.emiter.emit('soundchange', newState);
+  }
+
+  toggleTheme() {
+    this.themeBtn.classList.toggle('menu__icon-btn_type_theme-light');
+    this.themeBtn.classList.toggle('menu__icon-btn_type_theme-dark');
+    const newTheme = this.theme === themes.LIGHT ? themes.DARK : themes.LIGHT;
+    this.theme = newTheme;
+    this.emiter.emit('themechange', newTheme);
+  }
+
   addListeners() {
     super.addListeners();
-    this.soundsBtn.addEventListener('click', () => {
-      this.soundsBtn.classList.toggle('menu__icon-btn_type_sound');
-      this.soundsBtn.classList.toggle('menu__icon-btn_type_mute');
-      const newState = this.sounds === soundsState.ON ? soundsState.OFF : soundsState.ON;
-      this.sounds = newState;
-      this.emiter.emit('soundchange', newState);
-    });
-    this.themeBtn.addEventListener('click', () => {
-      this.themeBtn.classList.toggle('menu__icon-btn_type_theme-light');
-      this.themeBtn.classList.toggle('menu__icon-btn_type_theme-dark');
-      const newTheme = this.theme === themes.LIGHT ? themes.DARK : themes.LIGHT;
-      this.theme = newTheme;
-      this.emiter.emit('themechange', newTheme);
+    this.soundsBtn.addEventListener('click', () => this.toggleSounds());
+    this.themeBtn.addEventListener('click', () => this.toggleTheme());
+    this.statsBtn.addEventListener('click', () => {
+      this.emiter.emit('historyopen');
     })
   }
-  
 }

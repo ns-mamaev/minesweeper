@@ -5,7 +5,7 @@ export default class ResultsPopup extends Popup {
   constructor({ container, emiter }) {
     super({ container, className:'popup_type_results' })
     this.eventEmiter = emiter;
-    this.message = createElement('h2', 'popup__results-message');
+    this.message = createElement('h2', 'popup__heading');
     this.resetButton = createElement('button', 'popup__reset-btn');
     
     this.inner.append(this.message, this.resetButton);

@@ -136,6 +136,7 @@ export default class Game {
       const stats = {
         time: this.time,
         moves: this.moves,
+        ...this.gameSettings
       };
       this.eventEmiter.emit('win', stats);
     }
