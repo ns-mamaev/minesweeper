@@ -29,7 +29,7 @@ export default class HightScorePopup extends Popup {
     if (stored) {
       this.history = stored;
       this.history.forEach(data => {
-        const row = this.createRow(data);
+        const row = this.createRow(this.transformData(data));
         this.addRow(row);
       })
     }
@@ -42,9 +42,16 @@ export default class HightScorePopup extends Popup {
       <span class='history__item-size'>${size}</span>
       <span class='history__item-bombs'>${bombs}</span>
       <span class='history__item-moves'>${moves}</span>
-      <span class='history__item-moves'>${time}</span>
+      <span class='history__item-time'>${time}</span>
     `;
     return row;
+  }
+
+  transformData(data) {
+    const { x, y, time, ...rest } = data;
+    const size = `${x}x${y}`
+    const timeStr = createTimeString(time);
+    return { size, time: timeStr, ...rest };
   }
 
   addRow(row) {
@@ -57,10 +64,7 @@ export default class HightScorePopup extends Popup {
 
   handleWin(data) {
     this.history.push(data);
-    const { x, y, time, ...rest } = data;
-    const size = `${x}x${y}`
-    const timeStr = createTimeString(time);
-    const row = this.createRow({ size, time: timeStr, ...rest });
+    const row = this.createRow(this.transformData(data));
     this.addRow(row);
     if (this.history.length > 10) {
       this.history.shift();
