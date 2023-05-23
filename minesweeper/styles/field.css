@@ -2,7 +2,7 @@
   display: grid;
   margin: 0 48px;
   padding: 4px;
-  background-color: #ccc;
+  background-color: var(--field-color);
   list-style: none;
   grid-gap: 2px;
   max-width: 650px;
@@ -20,17 +20,17 @@
 
 .game-field__cell_type_bomb {
   background: center / 70% no-repeat url(../assets/images/bomb.png);
-  background-color: #bbb;
+  background-color: var(--bomb-cell-color);
 }
 
 .game-field__cell_type_current-bomb {
   background: center / 70% no-repeat url(../assets/images/explosion.png);
-  background-color: #bbb;
+  background-color: var(--bomb-cell-color);
 }
 
 .game-field__cell_type_flag {
   background: center / 70% no-repeat url(../assets/images/flag.png);
-  background-color: #eeeaea;
+  background-color: var(--cell-color);
 }
 
 .game-field__cell_type_opened {
@@ -45,27 +45,27 @@
 }
 
 .game-field__cell_type_empty {
-  background-color: #fff;
+  background-color: var(--empty-cell-color);
 }
 
 .game-field__cell_qty_s {
-  background-color: #cde4c4;
+  background-color: var(--cell-color-s)
 }
 
 .game-field__cell_qty_m {
-  background-color: #f2f19c;
+  background-color: var(--cell-color-m)
 }
 
 .game-field__cell_qty_l {
-  background-color: #f0ba62;
+  background-color: var(--cell-color-l)
 }
 
 .game-field__cell_qty_xl {
-  background-color: #eba36c;
+  background-color: var(--cell-color-xl)
 }
 
 .game-field__cell_qty_more {
-  background-color: #d36a5a;
+  background-color: var(--cell-color-more)
 }
 
 @media screen and (max-width: 768px) {
@@ -79,7 +79,7 @@
 }
 
 .game-field__stub {
-  background-color: #eeeaea;
+  background-color: var(--field-color);
   height: 200px;
   display: flex;
   justify-content: center;

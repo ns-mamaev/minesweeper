@@ -14,7 +14,7 @@ export const gameSettings = {
     y: 25,
     bombs: 99,
   },
-  forReviewer: {
+  EASY_REVIEW: {
     x: 2,
     y: 2,
     bombs: 2,
