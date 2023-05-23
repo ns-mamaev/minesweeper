@@ -20,7 +20,7 @@ export default class Game {
       const maxBombs = x * y - 1;
       const bombs = settings.bombs > maxBombs ? maxBombs : settings.bombs;
       this.gameSettings = { x, y, bombs };
-      localStorage.setItem('gameSettings', JSON.stringify(settings));
+      localStorage.setItem('gameSettings', JSON.stringify(this.gameSettings));
     }
     this.clearGame();
     this.start();
