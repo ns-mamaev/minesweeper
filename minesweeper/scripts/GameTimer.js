@@ -2,8 +2,8 @@ export default class GameTimer {
   constructor({ emiter }) {
     this.eventEmiter = emiter;
     this.startTick = 0;
-    this.time = 0;
-    emiter.attach('firstmove', () => this.start());
+    this.time = localStorage.getItem('time') || 0;
+    emiter.attach('timerstart', () => this.start());
     emiter.attach('pause', () => this.pause());
     emiter.attach('resume', () => this.start());
     emiter.attach('newgame', () => this.reset());
@@ -19,6 +19,7 @@ export default class GameTimer {
       const seconds = Math.round(timerValue / 1000);
       this.time = seconds;
       this.eventEmiter.emit('tick', seconds);
+      localStorage.setItem('time', this.time);
     }, 1000)
   }
 
@@ -30,5 +31,6 @@ export default class GameTimer {
     clearInterval(this.timer);
     this.startTick = 0;
     this.time = 0;
+    localStorage.removeItem('time');
   }
 }

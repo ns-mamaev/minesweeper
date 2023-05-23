@@ -6,7 +6,7 @@ export default class Scoreboard extends View {
     super(container);
     this.eventEmiter = emiter;
     this.view = createElement('div', 'scoreboard');
-    const scoreCard = this.createCard(0, 'score');
+    const scoreCard = this.createCard('0', 'score');
     const timerCard = this.createCard('00:00:00', 'time');
     const flagsCard = this.createCard(0, 'flags')
     this.view.append(scoreCard, timerCard, flagsCard)
@@ -17,7 +17,7 @@ export default class Scoreboard extends View {
 
     emiter.attach('tick', (seconds) => this.changeTime(seconds));
     emiter.attach('changescore', (score) => this.score = score);
-    emiter.attach('gamestart', (args) => this.handleNewGame(args));
+    emiter.attach('gamestart', (settings) => this.handleNewGame(settings));
     emiter.attach('changeflags', (qty) => this.flags = qty)
   }
 
@@ -33,11 +33,12 @@ export default class Scoreboard extends View {
     this._flagsEl.textContent = `${value}/${this.bombsQty}`;
   }
 
-  handleNewGame({ bombs }) {
+  handleNewGame({ bombs, time, score, flagsQty }) {
+    console.log(flagsQty)
     this.bombsQty = bombs;
-    this.timer = '00:00:00';
-    this.score = 0;
-    this.flags = 0;
+    this.timer = createTimeString(time);
+    this.score = score;
+    this.flags = flagsQty;
   }
 
   createCard(value, type) {

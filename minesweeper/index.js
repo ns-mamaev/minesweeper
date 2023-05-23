@@ -33,10 +33,10 @@ const game = new Game({ emiter: eventEmiter });
 
 document.body.appendChild(layout);
 scoreboard.init();
-game.start();
-controls.init();
 menuPopup.init();
 resultsPopup.init();
 hightScorePopup.init();
 sounds.init();
 themeSwitcher.init();
+game.start();
+controls.init();
