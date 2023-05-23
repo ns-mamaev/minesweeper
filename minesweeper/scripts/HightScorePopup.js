@@ -6,7 +6,8 @@ export default class HightScorePopup extends Popup {
     super({ container, className: 'popup_type_history' });
     this.eventEmitter = emiter;
     this.history = [];
-    const heading = createElement('h2', 'popup__heading', 'High score');
+    this.stub = null;
+    const heading = createElement('h2', 'popup__heading', 'Hight score');
     this.table = createElement('ul', 'history');
     const tableHeading = this.createRow({
       size: 'size',
@@ -15,9 +16,8 @@ export default class HightScorePopup extends Popup {
       time: 'time',
     });
     this.addRow(tableHeading);
-    this.restoreData();
-
     this.inner.append(heading, this.table);
+    this.restoreData();
 
     emiter.attach('historyopen', this.open.bind(this));
     emiter.attach('win', this.handleWin.bind(this));
@@ -31,7 +31,14 @@ export default class HightScorePopup extends Popup {
       this.history.forEach(data => {
         const row = this.createRow(this.transformData(data));
         this.addRow(row);
-      })
+      });
+    } else {
+      this.stub = createElement(
+        'p',
+        'history__stub',
+        'This is a table of your wins. you haven\'t won yet'
+        );
+      this.inner.append(this.stub);
     }
   }
 
@@ -63,6 +70,10 @@ export default class HightScorePopup extends Popup {
   }
 
   handleWin(data) {
+    if (this.stub) {
+      this.stub.remove();
+      this.stub = null;
+    }
     this.history.push(data);
     const row = this.createRow(this.transformData(data));
     this.addRow(row);
