@@ -14,11 +14,6 @@ export const gameSettings = {
     y: 25,
     bombs: 99,
   },
-  EASY_REVIEW: {
-    x: 2,
-    y: 2,
-    bombs: 2,
-  },
 };
 
 export const aroundCellCoords = [[-1, 1], [0, 1], [1, 1], [1, 0], [1, -1], [0, -1], [-1, -1], [-1, 0]];

@@ -16,7 +16,10 @@ export default class Game {
 
   handleNewgame(settings) {
     if (settings) {
-      this.gameSettings = settings;
+      const { x, y } = settings;
+      const maxBombs = x * y - 1;
+      const bombs = settings.bombs > maxBombs ? maxBombs : settings.bombs;
+      this.gameSettings = { x, y, bombs };
       localStorage.setItem('gameSettings', JSON.stringify(settings));
     }
     this.clearGame();

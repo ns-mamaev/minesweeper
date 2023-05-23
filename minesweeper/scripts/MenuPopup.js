@@ -18,7 +18,8 @@ export default class MenuPopup extends Popup {
     const difficultyButtons = Object
     .keys(gameSettings)
     .map((difficulty) => this.createGameButton(difficulty, gameSettings[difficulty]));
-    difficulty.append(...difficultyButtons);
+    const customDifficultyButton = this.createCustomGameCard();
+    difficulty.append(...difficultyButtons, customDifficultyButton);
     const iconButtons = this.createIconButtons();
     this.content.append(heading, difficulty, iconButtons);
 
@@ -44,18 +45,57 @@ export default class MenuPopup extends Popup {
 
   createGameButton(difficulty, settings) {
     const { x, y, bombs } = settings;
-    const btn = createElement('button', 'menu__difficulty-btn');
+    const btn = createElement('button', 'menu__difficulty-card');
     btn.addEventListener('click', () => {
       this.emiter.emit('newgame', settings);
       this.close();
     })
     btn.innerHTML = `
-      <h3>${difficulty}</h3>
-      <p>${x} x ${y}</p>
-      <p>${bombs} bombs</p>
+      <h3 class="menu__difficulty-heading">${difficulty}</h3>
+      <p class="menu__difficulty-text">${x} x ${y}</p>
+      <p class="menu__difficulty-text">${bombs} bombs</p>
     `;
     return btn;
   }
+
+  createCustomGameCard() {
+    const card = createElement('div', ['menu__difficulty-card', 'menu__difficulty-card_type_custom']);
+    const heading = createElement('h3', 'menu__difficulty-heading', 'custom');
+    const form = createElement('form', 'menu__difficulty-form');
+    form.setAttribute('id', 'custom-game');
+    form.innerHTML = `
+      <label class="menu__difficulty-label">
+        <input name="x" min="2" max="25" class="menu__difficulty-input" type="number" placeholder="2-25" required>
+        x
+      </label>
+      <label class="menu__difficulty-label">
+        <input name="y" min="2" max="25" class="menu__difficulty-input" type="number" placeholder="2-25" required>
+        y
+      </label>
+      <label class="menu__difficulty-label">
+        <input name="bombs" min="1" max="99" class="menu__difficulty-input" type="number" placeholder="1-99" required>
+        💣
+      </label>`;
+    const button = createElement('button', 'menu__custom-difficulty-btn', 'start');
+    button.setAttribute('form', 'custom-game');
+    button.setAttribute('type', 'submit');
+
+    card.append(heading, form, button);
+
+    form.addEventListener('submit', (e) => {
+      e.preventDefault();
+      const settings = {
+        x: +form.elements.x.value,
+        y: +form.elements.y.value,
+        bombs: +form.elements.bombs.value,
+      };
+      this.emiter.emit('newgame', settings);
+      this.close();
+    })
+
+    return card;
+  };
+
 
   toggleSounds() {
     this.soundsBtn.classList.toggle('menu__icon-btn_type_sound');
