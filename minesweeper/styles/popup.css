@@ -62,7 +62,7 @@
   display: block;
   width: 48px;
   height: 48px;
-  background: url(../assets/images/refresh-ccw.svg) center / contain no-repeat;
+  background: url(../assets/images/reset.svg) center / contain no-repeat;
   cursor: pointer;
 }
 
