@@ -19,11 +19,12 @@ export default class Field extends View {
     this.clickCell = this.clickCell.bind(this);
   }
 
-  init({ x, y }) {
+  init({ x, y, openedCells }) {
     const cells = [];
     // remove old fild
     this.removeListeners();
     this.view.innerHTML = '';
+
     this.view.style.gridTemplateColumns = `repeat(${x}, 1fr)`;
     for (let i = 0; i < y; i++) {
       const row = [];
@@ -40,10 +41,13 @@ export default class Field extends View {
     this.view.append(...flatCells);
     this.cells = cells;
 
+    openedCells.forEach(([x, y, value]) => {
+      this.showCell(x, y, value);
+    })
+
     this.render();
     this.addListeners();
   }
-
 
   handleGameover(bombsCoords, currentBombCoords) {
     this.removeListeners();

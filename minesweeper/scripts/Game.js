@@ -73,17 +73,17 @@ export default class Game {
       })
     })
 
-    const cellValues = [];
+    this.digits = [];
 
     this.field.forEach((row, i) => {
       row.forEach((cell, j) => {
-        if (cell.value) {
-          cellValues.push([ j, i, cell.value ]);
+        if (cell.value && cell.value !== BOMB_TAG) {
+          this.digits.push([ j, i, cell.value ]);
         }
       })
     })
 
-    localStorage.setItem('cellValues', JSON.stringify(cellValues));
+    localStorage.setItem('digits', JSON.stringify(this.digits));
     localStorage.setItem('bombsCoords', JSON.stringify(this.bombsCoords));
   }
 
@@ -112,7 +112,7 @@ export default class Game {
     const cell = this.field[y][x];
     const { value: cellValue, flag } = cell;
 
-    this.openedCells.push([ x, y ])
+    this.openedCells.push([ x, y, cellValue ])
 
     if (flag) {
       return;
@@ -179,7 +179,6 @@ export default class Game {
     this.createField(x, y);
 
     this.restoreGame();
-    
     const settings = {
       x,
       y,
@@ -196,6 +195,7 @@ export default class Game {
     this.fieldSize = this.gameSettings.x * this.gameSettings.y;
     this.bombsCoords = [];
     this.openedCells = [];
+    this.digits = [];
     this.firstMove = true;
   }
 
@@ -204,6 +204,7 @@ export default class Game {
     localStorage.removeItem('moves'); //+
     localStorage.removeItem('flags');
     localStorage.removeItem('time'); 
+    localStorage.removeItem('digits');
     localStorage.removeItem('bombsCoords'); //+
     localStorage.removeItem('openedCells'); //+
     localStorage.removeItem('hasSavedGame'); //+
@@ -218,12 +219,15 @@ export default class Game {
     this.flags = localStorage.getItem('flags') || 0;
     this.time = localStorage.getItem('time') || 0;
     this.bombsCoords = JSON.parse(localStorage.getItem('bombsCoords'));
+    this.bombsCoords.forEach(([x, y]) => {
+      this.field[y][x].value = BOMB_TAG;
+    })
     this.openedCells = JSON.parse(localStorage.getItem('openedCells'));
     this.openedCells.forEach(([x, y]) => {
       this.field[y][x].opened = true;
     });
-    const values = JSON.parse(localStorage.getItem('cellValues'));
-    values.forEach(([x, y, value]) => {
+    this.digits = JSON.parse(localStorage.getItem('digits'));
+    this.digits.forEach(([x, y, value]) => {
       this.field[y][x].value = value;
     })
     this.firstMove = false;
