@@ -9,6 +9,7 @@ export default class Game {
     emiter.attach('open', this.handlePlayerMove.bind(this));
     emiter.attach('newgame', this.handleNewgame.bind(this));
     emiter.attach('flag', this.flagCell.bind(this));
+    emiter.attach('tick', this.handleTick.bind(this));
   }
 
   handleNewgame(settings) {
@@ -17,6 +18,10 @@ export default class Game {
       localStorage.setItem('gameSettings', JSON.stringify(settings));
     }
     this.start();
+  }
+
+  handleTick(time) {
+    this.time = time;
   }
 
   createField(x, y) {
@@ -128,14 +133,17 @@ export default class Game {
 
   checkWinning() {
     if (this.fieldSize - this.openedCells <= this.bombsQty) {
-      this.eventEmiter.emit('win');
+      const stats = {
+        time: this.time,
+        moves: this.moves,
+      };
+      this.eventEmiter.emit('win', stats);
     }
   }
 
   handleOpenCell(x, y, value) {
     this.eventEmiter.emit('showCell', x, y, value);
   }
-
 
   start() {
     const { x, y, bombs } = this.gameSettings;
@@ -144,6 +152,7 @@ export default class Game {
     this.openedCells = 0;
     this.moves = 0;
     this.flags = 0;
+    this.time = 0;
     this.xSize = x;
     this.ySize = y;
     this.fieldSize = x * y;

@@ -7,7 +7,7 @@ import MenuPopup from './scripts/MenuPopup.js';
 import Scoreboard from './scripts/Scoreboard.js';
 import Sounds from './scripts/Sounds.js';
 import ThemeSwitcher from './scripts/ThemeSwitcher.js';
-import WinPopup from './scripts/WinPopup.js';
+import ResultsPopup from './scripts/ResultsPopup.js';
 import { gameSettings } from './utills/constants.js';
 import { createElement } from './utills/utills.js';
 
@@ -18,7 +18,7 @@ const layout = createElement('main', 'main');
 const scoreboard = new Scoreboard({ container: layout, emiter: eventEmiter });
 const controls = new Controls({ container: layout, emiter: eventEmiter });
 const menuPopup = new MenuPopup({ container: document.body, emiter: eventEmiter });
-const winPopup = new WinPopup({ container: document.body, emiter: eventEmiter });
+const resultsPopup = new ResultsPopup({ container: document.body, emiter: eventEmiter });
 const timer = new GameTimer({ emiter: eventEmiter });
 const sounds = new Sounds({ emitter: eventEmiter });
 const themeSwitcher = new ThemeSwitcher({ emitter: eventEmiter, rootElement: document.body });
@@ -35,9 +35,6 @@ scoreboard.init();
 game.start(gameSettings.easy);
 controls.init();
 menuPopup.init();
-winPopup.init();
+resultsPopup.init();
 sounds.init();
 themeSwitcher.init();
-alert(
-  'Уважаемый проверяющий! Прошу по-возможности проверить работу 24 числа или позднее. Из-за совмещения с фулл-тайм работой не успел завершить 3 пункта:\n 1.сохранение состояния между перезагрузками\n 2.таблица рекордов\n 3.адаптивность верстки' 
-)

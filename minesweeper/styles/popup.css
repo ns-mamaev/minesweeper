@@ -45,3 +45,26 @@
 .popup__close-btn:active {
   transform: scale(1.1);
 }
+
+.popup_type_results .popup__inner {
+  max-width: 300px;
+}
+
+.popup__results-message {
+  text-align: center;
+  margin: 0;
+  font-size: 20px;
+}
+
+.popup__reset-btn {
+  margin: 20px auto 0;
+  display: block;
+  width: 48px;
+  height: 48px;
+  background: url(../assets/images/refresh-ccw.svg) center / contain no-repeat;
+  cursor: pointer;
+}
+
+.popup__reset-btn:hover {
+  opacity: 0.7;
+}

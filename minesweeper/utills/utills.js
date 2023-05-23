@@ -6,10 +6,12 @@ export function getRandomInt(min, max) {
 
 export function createElement(tagName, classNames, textContent) {
   const el = document.createElement(tagName);
-  if (Array.isArray(classNames)) {
-    el.classList.add(...classNames);
-  } else {
-    el.classList.add(classNames);
+  if (classNames) {
+    if (Array.isArray(classNames)) {
+      el.classList.add(...classNames);
+    } else {
+      el.classList.add(classNames);
+    }
   }
   if (textContent) {
     el.textContent = textContent;
