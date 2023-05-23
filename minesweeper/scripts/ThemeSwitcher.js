@@ -11,6 +11,7 @@ export default class ThemeSwitcher {
   changeTheme(newTheme) {
     this.root.classList.remove(this.state);
     this.root.classList.add(newTheme);
+    this.state = newTheme;
     localStorage.setItem('theme', newTheme);
   }
 
