@@ -21,7 +21,6 @@ export default class HightScorePopup extends Popup {
 
     emiter.attach('historyopen', this.open.bind(this));
     emiter.attach('win', this.handleWin.bind(this));
-    this.open();
   }
 
   restoreData() {

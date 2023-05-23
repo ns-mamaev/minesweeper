@@ -10,6 +10,8 @@ export default class Game {
     emiter.attach('newgame', this.handleNewgame.bind(this));
     emiter.attach('flag', this.flagCell.bind(this));
     emiter.attach('tick', this.handleTick.bind(this));
+
+    this.initState();
   }
 
   handleNewgame(settings) {
@@ -17,6 +19,7 @@ export default class Game {
       this.gameSettings = settings;
       localStorage.setItem('gameSettings', JSON.stringify(settings));
     }
+    this.clearGame();
     this.start();
   }
 
@@ -35,8 +38,8 @@ export default class Game {
       const nearbyCellY = y + deltaY;
       const nearbyCellX = x + deltaX;
 
-      if (nearbyCellX > this.xSize - 1 || nearbyCellX < 0) continue;
-      if (nearbyCellY > this.ySize - 1 || nearbyCellY < 0) continue;
+      if (nearbyCellX > this.gameSettings.x - 1 || nearbyCellX < 0) continue;
+      if (nearbyCellY > this.gameSettings.y - 1 || nearbyCellY < 0) continue;
 
       callback(nearbyCellX, nearbyCellY);
     }
@@ -44,7 +47,7 @@ export default class Game {
 
   setBombs(firstMoveIndex) {
     const bombsIndexes = new Set();
-    let rest = this.bombsQty;
+    let rest = this.gameSettings.bombs;
     while (rest) {
       const bombIndex = getRandomInt(0, this.fieldSize);
       const shouldCreateBomb = !bombsIndexes.has(bombIndex) && bombIndex !== firstMoveIndex;
@@ -54,12 +57,12 @@ export default class Game {
       }
     }
     bombsIndexes.forEach(index => {
-      const y = Math.floor(index / this.xSize);
-      const x = index - this.xSize * y;
+      const y = Math.floor(index / this.gameSettings.x);
+      const x = index - this.gameSettings.x * y;
 
       // set bomb
       this.field[y][x].value = BOMB_TAG;
-      this.bombsCoords.push({ x, y });
+      this.bombsCoords.push([ x, y ]);
 
       // count bombs
       this.bypassAround(x, y, (nearbyCellX, nearbyCellY) => {
@@ -69,29 +72,52 @@ export default class Game {
         }
       })
     })
+
+    const cellValues = [];
+
+    this.field.forEach((row, i) => {
+      row.forEach((cell, j) => {
+        if (cell.value) {
+          cellValues.push([ j, i, cell.value ]);
+        }
+      })
+    })
+
+    localStorage.setItem('cellValues', JSON.stringify(cellValues));
+    localStorage.setItem('bombsCoords', JSON.stringify(this.bombsCoords));
+  }
+
+  handleFirstMove(x, y) {
+    const firstMoveIndex = y * this.gameSettings.x + x;
+    this.setBombs(firstMoveIndex);
+    this.firstMove = false;
+    localStorage.setItem('hasSavedGame', 1);
+    // this.values =
+    this.eventEmiter.emit('firstmove');
   }
 
   handlePlayerMove(x, y) {
      // user cannot lose the game on the first move - bombs set after first move
     if (this.firstMove) {
-      const firstMoveIndex = y * this.xSize + x;
-      this.setBombs(firstMoveIndex);
-      this.firstMove = false;
-      this.eventEmiter.emit('firstmove');
+      this.handleFirstMove(x, y);
     }
     this.moves++;
     this.eventEmiter.emit('changescore', this.moves);
     this.openCell(x, y);
+    localStorage.setItem('openedCells', JSON.stringify(this.openedCells));
+    localStorage.setItem('moves', this.moves);
   }
 
   openCell(x, y) {
     const cell = this.field[y][x];
     const { value: cellValue, flag } = cell;
+
+    this.openedCells.push([ x, y ])
+
     if (flag) {
       return;
     }
     cell.opened = true;
-    this.openedCells++;
 
     switch (cellValue) {
       case BOMB_TAG:
@@ -129,15 +155,17 @@ export default class Game {
   handleGameOver(x, y) {
     const currentBombCoords = { x, y }
     this.eventEmiter.emit('gameover', this.bombsCoords, currentBombCoords);
+    this.clearGame();
   }
 
   checkWinning() {
-    if (this.fieldSize - this.openedCells <= this.bombsQty) {
+    if (this.fieldSize - this.openedCells.length <= this.gameSettings.bombs) {
       const stats = {
         time: this.time,
         moves: this.moves,
         ...this.gameSettings
       };
+      this.clearGame();
       this.eventEmiter.emit('win', stats);
     }
   }
@@ -148,18 +176,59 @@ export default class Game {
 
   start() {
     const { x, y, bombs } = this.gameSettings;
-    this.firstMove = true;
-    this.bombsCoords = [];
-    this.openedCells = 0;
+    this.createField(x, y);
+
+    this.restoreGame();
+    
+    const settings = {
+      x,
+      y,
+      bombs,
+      openedCells: this.openedCells,
+    }
+    this.eventEmiter.emit('gamestart', settings);
+  }
+
+  initState() {
     this.moves = 0;
     this.flags = 0;
     this.time = 0;
-    this.xSize = x;
-    this.ySize = y;
-    this.fieldSize = x * y;
-    this.bombsQty = bombs;
-    this.createField(x, y);
-
-    this.eventEmiter.emit('gamestart', { x, y, bombs });
+    this.fieldSize = this.gameSettings.x * this.gameSettings.y;
+    this.bombsCoords = [];
+    this.openedCells = [];
+    this.firstMove = true;
   }
+
+  clearGame() {
+    this.initState();
+    localStorage.removeItem('moves'); //+
+    localStorage.removeItem('flags');
+    localStorage.removeItem('time'); 
+    localStorage.removeItem('bombsCoords'); //+
+    localStorage.removeItem('openedCells'); //+
+    localStorage.removeItem('hasSavedGame'); //+
+  }
+
+  restoreGame() {
+    const hasSavedGame = localStorage.getItem('hasSavedGame');
+    if (!hasSavedGame) {
+      return;
+    }
+    this.moves = localStorage.getItem('moves') || 0;
+    this.flags = localStorage.getItem('flags') || 0;
+    this.time = localStorage.getItem('time') || 0;
+    this.bombsCoords = JSON.parse(localStorage.getItem('bombsCoords'));
+    this.openedCells = JSON.parse(localStorage.getItem('openedCells'));
+    this.openedCells.forEach(([x, y]) => {
+      this.field[y][x].opened = true;
+    });
+    const values = JSON.parse(localStorage.getItem('cellValues'));
+    values.forEach(([x, y, value]) => {
+      this.field[y][x].value = value;
+    })
+    this.firstMove = false;
+
+    console.log(this);
+  }
+
 }

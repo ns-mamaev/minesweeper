@@ -48,7 +48,7 @@ export default class Field extends View {
   handleGameover(bombsCoords, currentBombCoords) {
     this.removeListeners();
     const { x: currentX, y: currentY } = currentBombCoords;
-    bombsCoords.forEach(({ x, y }) => {
+    bombsCoords.forEach(([ x, y ]) => {
       const cell = this.cells[y][x];
       const bombClass = x === currentX && y === currentY
         ? 'game-field__cell_type_current-bomb'

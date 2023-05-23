@@ -9,7 +9,6 @@ import Sounds from './scripts/Sounds.js';
 import ThemeSwitcher from './scripts/ThemeSwitcher.js';
 import ResultsPopup from './scripts/ResultsPopup.js';
 import HightScorePopup from './scripts/HightScorePopup.js';
-import { gameSettings } from './utills/constants.js';
 import { createElement } from './utills/utills.js';
 
 
@@ -34,7 +33,7 @@ const game = new Game({ emiter: eventEmiter });
 
 document.body.appendChild(layout);
 scoreboard.init();
-game.start(gameSettings.easy);
+game.start();
 controls.init();
 menuPopup.init();
 resultsPopup.init();

@@ -1,8 +1,8 @@
 export const gameSettings = {
   easy: {
-    x: 2,
-    y: 2,
-    bombs: 1,
+    x: 10,
+    y: 10,
+    bombs: 10,
   },
   medium: {
     x: 15,
@@ -13,6 +13,11 @@ export const gameSettings = {
     x: 25,
     y: 25,
     bombs: 99,
+  },
+  forReviewer: {
+    x: 2,
+    y: 2,
+    bombs: 2,
   },
 };
 
