@@ -2,7 +2,7 @@
   margin: 0;
   padding: 0;
   list-style: none;
-  width: 240px;
+  width: 280px;
   display: flex;
   flex-direction: column;
   row-gap: 6px;
@@ -18,9 +18,17 @@
   font-weight: 600;
 }
 
-.history__item-time {
+.history__column {
+  min-width: 30px;
+}
+
+.history__column_type_time {
   min-width: 60px;
   text-align: center;
+}
+
+.history__column_type_size {
+  min-width: 60px;
 }
 
 .history__stub {

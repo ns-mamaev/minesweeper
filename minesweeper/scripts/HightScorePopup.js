@@ -21,6 +21,8 @@ export default class HightScorePopup extends Popup {
 
     emiter.attach('historyopen', this.open.bind(this));
     emiter.attach('win', this.handleWin.bind(this));
+
+    this.open();
   }
 
   restoreData() {
@@ -45,10 +47,10 @@ export default class HightScorePopup extends Popup {
     const { size, bombs, moves, time } = data;
     const row = createElement('li', 'history__item');
     row.innerHTML = `
-      <span class='history__item-size'>${size}</span>
-      <span class='history__item-bombs'>${bombs}</span>
-      <span class='history__item-moves'>${moves}</span>
-      <span class='history__item-time'>${time}</span>
+      <span class='history__column history__column_type_size'>${size}</span>
+      <span class='history__column history__column_type_bombs'>${bombs}</span>
+      <span class='history__column history__column_type_moves'>${moves}</span>
+      <span class='history__column history__column_type_time'>${time}</span>
     `;
     return row;
   }
