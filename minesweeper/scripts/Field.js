@@ -25,7 +25,7 @@ export default class Field extends View {
     this.removeListeners();
     this.view.innerHTML = '';
 
-    this.view.style.gridTemplateColumns = `repeat(${x}, 1fr)`;
+    this.view.style.gridTemplateColumns = `repeat(${x}, minmax(8px, 48px)`;
     for (let i = 0; i < y; i++) {
       const row = [];
       for (let j = 0; j < x; j++) {

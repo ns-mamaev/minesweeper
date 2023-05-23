@@ -34,7 +34,6 @@ export default class Scoreboard extends View {
   }
 
   handleNewGame({ bombs, time, score, flagsQty }) {
-    console.log(flagsQty)
     this.bombsQty = bombs;
     this.timer = createTimeString(time);
     this.score = score;
