@@ -19,7 +19,7 @@ export default class Field extends View {
     this.clickCell = this.clickCell.bind(this);
   }
 
-  init({ x, y, openedCells }) {
+  init({ x, y, openedCells, flags }) {
     const cells = [];
     // remove old fild
     this.removeListeners();
@@ -43,6 +43,10 @@ export default class Field extends View {
 
     openedCells.forEach(([x, y, value]) => {
       this.showCell(x, y, value);
+    })
+
+    flags.forEach(([x, y]) => {
+      this.cells[y][x].classList.add('game-field__cell_type_flag');
     })
 
     this.render();

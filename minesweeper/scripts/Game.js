@@ -145,10 +145,14 @@ export default class Game {
     if (cell.flag) {
       this.flags--;
       cell.flag = false;
+      debugger;
+      this.flagCoords = this.flagCoords.filter(coord => coord[0] !== x || coord[1] !== y);
     } else {
       this.flags++
       cell.flag = true;
+      this.flagCoords.push([x, y]);
     }
+    localStorage.setItem('flagCoords', JSON.stringify(this.flagCoords));
     this.eventEmiter.emit('changeflags', this.flags);
   }
 
@@ -184,6 +188,7 @@ export default class Game {
       y,
       bombs,
       openedCells: this.openedCells,
+      flags: this.flagCoords,
     }
     this.eventEmiter.emit('gamestart', settings);
   }
@@ -193,6 +198,7 @@ export default class Game {
     this.flags = 0;
     this.time = 0;
     this.fieldSize = this.gameSettings.x * this.gameSettings.y;
+    this.flagCoords = [];
     this.bombsCoords = [];
     this.openedCells = [];
     this.digits = [];
@@ -203,6 +209,7 @@ export default class Game {
     this.initState();
     localStorage.removeItem('moves'); //+
     localStorage.removeItem('flags');
+    localStorage.removeItem('flagsCoords')
     localStorage.removeItem('time'); 
     localStorage.removeItem('digits');
     localStorage.removeItem('bombsCoords'); //+
@@ -230,9 +237,11 @@ export default class Game {
     this.digits.forEach(([x, y, value]) => {
       this.field[y][x].value = value;
     })
+    this.flagCoords = JSON.parse(localStorage.getItem('flagCoords')) || [];
+    this.flagCoords.forEach(([x, y]) => {
+      this.field[y][x].flag = true;
+    })
     this.firstMove = false;
-
-    console.log(this);
   }
 
 }
