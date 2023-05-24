@@ -7,20 +7,22 @@ export default class HightScorePopup extends Popup {
     this.eventEmitter = emiter;
     this.history = [];
     this.stub = null;
-    const heading = createElement('h2', 'popup__heading', 'Hight score');
+    const heading = createElement('h2', 'popup__heading', 'Game history');
     this.table = createElement('ul', 'history');
     const tableHeading = this.createRow({
       size: 'size',
       bombs: 'bombs',
       moves: 'moves', 
       time: 'time',
+      result: 'result',
     });
     this.addRow(tableHeading);
     this.inner.append(heading, this.table);
     this.restoreData();
 
     emiter.attach('historyopen', this.open.bind(this));
-    emiter.attach('win', this.handleWin.bind(this));
+    emiter.attach('win', (data) => this.handleResult(data, 'WIN'));
+    emiter.attach('gameover', (data) => this.handleResult(data, 'LOSE'));
   }
 
   restoreData() {
@@ -35,16 +37,17 @@ export default class HightScorePopup extends Popup {
       this.stub = createElement(
         'p',
         'history__stub',
-        'This is a table of your wins. you haven\'t won yet'
+        'History is empty'
         );
       this.inner.append(this.stub);
     }
   }
 
   createRow(data) {
-    const { size, bombs, moves, time } = data;
+    const { result, size, bombs, moves, time } = data;
     const row = createElement('li', 'history__item');
     row.innerHTML = `
+      <span class='history__column history__column_type_result'>${result}</span>
       <span class='history__column history__column_type_size'>${size}</span>
       <span class='history__column history__column_type_bombs'>${bombs}</span>
       <span class='history__column history__column_type_moves'>${moves}</span>
@@ -65,16 +68,16 @@ export default class HightScorePopup extends Popup {
   }
 
   removeRow(index) {
-    this.table.children[index + 1].remove();
+    this.table.children[index].remove();
   }
 
-  handleWin(data) {
+  handleResult(data, result) {
     if (this.stub) {
       this.stub.remove();
       this.stub = null;
     }
-    this.history.push(data);
-    const row = this.createRow(this.transformData(data));
+    this.history.push({...data, result });
+    const row = this.createRow(this.transformData({ ...data, result }));
     this.addRow(row);
     if (this.history.length > 10) {
       this.history.shift();

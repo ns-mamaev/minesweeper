@@ -160,20 +160,26 @@ export default class Game {
     this.eventEmiter.emit('changeflags', this.flags);
   }
 
+  createStats(additional = {}) {
+    return {
+      time: this.time,
+      moves: this.moves,
+      bombsCoords: this.bombsCoords,
+      ...this.gameSettings,
+      ...additional,     
+    }
+  }
+
   handleGameOver(x, y) {
     const currentBombCoords = { x, y }
-    this.eventEmiter.emit('gameover', this.bombsCoords, currentBombCoords);
+    const stats = this.createStats({currentBombCoords});
+    this.eventEmiter.emit('gameover', stats);
     this.clearGame();
   }
 
   checkWinning() {
     if (this.fieldSize - this.openedCells.length <= this.gameSettings.bombs) {
-      const stats = {
-        time: this.time,
-        moves: this.moves,
-        bombsCoords: this.bombsCoords,
-        ...this.gameSettings
-      };
+      const stats = this.createStats();
       this.clearGame();
       this.eventEmiter.emit('win', stats);
     }

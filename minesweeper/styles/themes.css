@@ -1,8 +1,8 @@
 .app_light {
-  --cell-color: #eaeaea;
+  --cell-color: #e1e1e1;
   --text-color: #141414;
   --background-color: #fff;
-  --field-color: #ccc;
+  --field-color: #c2c2c2;
   --empty-cell-color: #fff;
   --cell-color-s: #cde4c4;
   --cell-color-m: #f2f19c;

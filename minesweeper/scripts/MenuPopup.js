@@ -65,15 +65,15 @@ export default class MenuPopup extends Popup {
     form.setAttribute('id', 'custom-game');
     form.innerHTML = `
       <label class="menu__difficulty-label">
-        <input name="x" min="2" max="25" class="menu__difficulty-input" type="number" placeholder="2-25" required>
+        <input name="x" min="10" max="25" class="menu__difficulty-input" type="number" placeholder="10-25" required>
         x
       </label>
       <label class="menu__difficulty-label">
-        <input name="y" min="2" max="25" class="menu__difficulty-input" type="number" placeholder="2-25" required>
+        <input name="y" min="10" max="25" class="menu__difficulty-input" type="number" placeholder="10-25" required>
         y
       </label>
       <label class="menu__difficulty-label">
-        <input name="bombs" min="1" max="99" class="menu__difficulty-input" type="number" placeholder="1-99" required>
+        <input name="bombs" min="10" max="99" class="menu__difficulty-input" type="number" placeholder="10-99" required>
         💣
       </label>`;
     const button = createElement('button', 'menu__custom-difficulty-btn', 'start');

@@ -53,7 +53,7 @@ export default class Field extends View {
     this.addListeners();
   }
 
-  handleGameover(bombsCoords, currentBombCoords) {
+  handleGameover({ bombsCoords, currentBombCoords }) {
     this.removeListeners();
     const { x: currentX, y: currentY } = currentBombCoords;
     bombsCoords.forEach(([ x, y ]) => {

@@ -44,6 +44,10 @@
   font-weight: 600;
 }
 
+.game-field__cell_type_opened:hover {
+  opacity: unset;
+}
+
 .game-field__cell_type_empty {
   background-color: var(--empty-cell-color);
 }

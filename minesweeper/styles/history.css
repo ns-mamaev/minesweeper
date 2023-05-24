@@ -16,19 +16,15 @@
 
 .history__item:first-child {
   font-weight: 600;
+  font-size: 14px;
 }
 
 .history__column {
-  min-width: 30px;
+  width: 50px;
 }
 
 .history__column_type_time {
-  min-width: 60px;
-  text-align: center;
-}
-
-.history__column_type_size {
-  min-width: 60px;
+  width: 60px;
 }
 
 .history__stub {
