@@ -1,0 +1,30 @@
+body {
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  font-family: sans-serif;
+  background-color: var(--background-color);
+}
+
+button {
+  border: none;
+  background: none;
+  margin: 0;
+  padding: 0;
+  color: #000;
+}
+
+.main {
+  color: var(--text-color);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  row-gap: 32px;
+  padding: 10px 0;
+  width: 100%;
+  box-sizing: border-box;
+}
